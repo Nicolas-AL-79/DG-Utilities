@@ -9,28 +9,16 @@ import java.util.function.Supplier;
 
 public class ClientHelloPacket {
 
-    private final boolean hasMod;
-
-    public ClientHelloPacket() {
-        this.hasMod = true;
-    }
-
-    private ClientHelloPacket(boolean hasMod) {
-        this.hasMod = hasMod;
-    }
-
     public static void encode(
             ClientHelloPacket packet,
             FriendlyByteBuf buffer
     ) {
-        buffer.writeBoolean(packet.hasMod);
     }
 
     public static ClientHelloPacket decode(
             FriendlyByteBuf buffer
     ) {
-        buffer.readBoolean();
-        return new ClientHelloPacket(buffer.readBoolean());
+        return new ClientHelloPacket();
     }
 
     public static void handle(
@@ -38,15 +26,12 @@ public class ClientHelloPacket {
             Supplier<NetworkEvent.Context> contextSupplier
     ) {
 
-        NetworkEvent.Context context =
-                contextSupplier.get();
+        NetworkEvent.Context context = contextSupplier.get();
 
         context.enqueueWork(() -> {
+            ServerPlayer player = context.getSender();
 
-            ServerPlayer player =
-                    context.getSender();
-
-            if (player != null && packet.hasMod) {
+            if (player != null) {
                 ClientModTracker.register(player);
             }
         });
