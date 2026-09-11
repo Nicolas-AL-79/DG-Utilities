@@ -2,12 +2,14 @@ package com.example.examplemod.client;
 
 import com.example.examplemod.Config;
 import com.example.examplemod.ExampleMod;
+import com.example.examplemod.network.ClientHelloPacket;
+import com.example.examplemod.network.ModNetwork;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(
         modid = ExampleMod.MODID,
@@ -26,6 +28,15 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
+    public static void onClientLogin(
+            ClientPlayerNetworkEvent.LoggingIn event
+    ) {
+        ModNetwork.CHANNEL.sendToServer(
+                new ClientHelloPacket()
+        );
+    }
+
+    @SubscribeEvent
     public static void onClientChatReceived(
             ClientChatReceivedEvent.Player event
     ) {
@@ -34,10 +45,5 @@ public class ClientEvents {
         )) {
             event.setCanceled(true);
         }
-    }
-
-    @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
-        IgnoreManager.load();
     }
 }

@@ -1,6 +1,6 @@
 package com.example.examplemod.manager;
 
-import net.minecraft.network.chat.Component;
+import com.example.examplemod.util.ModMessages;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
@@ -29,11 +29,23 @@ public class AFKManager {
 
     public static void startPending(ServerPlayer player) {
         if (AFK_PLAYERS.containsKey(player.getUUID())) {
-            player.sendSystemMessage(Component.translatable("command.mod_de_teste.afk.already"));
+            player.sendSystemMessage(
+                    ModMessages.get(
+                            player,
+                            "command.mod_de_teste.afk.already",
+                            "You are already AFK!"
+                    )
+            );
             return;
         }
         PENDING_AFK.put(player.getUUID(), new AFKData(System.currentTimeMillis(), player.position(), player.getYRot(), player.getXRot()));
-        player.sendSystemMessage(Component.translatable("command.mod_de_teste.afk.pending"));
+        player.sendSystemMessage(
+                ModMessages.get(
+                        player,
+                        "command.mod_de_teste.afk.pending",
+                        "Starting AFK mode... Stand still for 5 seconds."
+                )
+        );
     }
 
     public static boolean isAFK(UUID uuid) {
@@ -42,10 +54,22 @@ public class AFKManager {
 
     public static void cancelAFK(ServerPlayer player) {
         if (AFK_PLAYERS.remove(player.getUUID()) != null) {
-            player.sendSystemMessage(Component.translatable("command.mod_de_teste.afk.cancel_move"));
+            player.sendSystemMessage(
+                    ModMessages.get(
+                            player,
+                            "command.mod_de_teste.afk.cancel_move",
+                            "AFK mode deactivated due to movement."
+                    )
+            );
         }
         if (PENDING_AFK.remove(player.getUUID()) != null) {
-            player.sendSystemMessage(Component.translatable("command.mod_de_teste.afk.cancel_pending"));
+            player.sendSystemMessage(
+                    ModMessages.get(
+                            player,
+                            "command.mod_de_teste.afk.cancel_pending",
+                            "AFK countdown cancelled due to movement."
+                    )
+            );
         }
     }
 
@@ -63,7 +87,13 @@ public class AFKManager {
             } else if (System.currentTimeMillis() - data.startTime >= 5000) {
                 PENDING_AFK.remove(uuid);
                 AFK_PLAYERS.put(uuid, new AFKData(System.currentTimeMillis(), currentPos, currentYRot, currentXRot));
-                player.sendSystemMessage(Component.translatable("command.mod_de_teste.afk.active"));
+                player.sendSystemMessage(
+                        ModMessages.get(
+                                player,
+                                "command.mod_de_teste.afk.active",
+                                "AFK mode activated! You are invulnerable, immovable and ignored by monsters. Move your camera or press SHIFT to exit."
+                        )
+                );
 
                 // Faz todos os monstros ao redor que já estavam te seguindo perderem o alvo
                 java.util.List<net.minecraft.world.entity.Mob> mobs = player.level().getEntitiesOfClass(net.minecraft.world.entity.Mob.class, player.getBoundingBox().inflate(32.0));

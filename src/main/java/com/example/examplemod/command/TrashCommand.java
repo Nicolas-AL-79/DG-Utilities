@@ -1,10 +1,10 @@
 package com.example.examplemod.command;
 
 import com.example.examplemod.Config;
+import com.example.examplemod.util.ModMessages;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.SimpleMenuProvider;
@@ -21,7 +21,11 @@ public class TrashCommand {
 
                     player.openMenu(new SimpleMenuProvider(
                             (id, inventory, playerEntity) -> ChestMenu.threeRows(id, inventory, container),
-                            Component.translatable("command.mod_de_teste.trash.title")
+                            ModMessages.get(
+                                    player,
+                                    "command.mod_de_teste.trash.title",
+                                    "Trash"
+                            )
                     ));
 
                     return 1;

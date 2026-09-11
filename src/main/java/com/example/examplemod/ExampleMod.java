@@ -3,18 +3,22 @@ package com.example.examplemod;
 import com.example.examplemod.command.*;
 import com.example.examplemod.invsee.InvseeCommand;
 import com.example.examplemod.manager.ForbiddenItemsManager;
+import com.example.examplemod.network.ModNetwork;
+import com.example.examplemod.util.ModMessages;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.network.NetworkConstants;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,6 +38,16 @@ public class ExampleMod
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC, MODID + "/mod_de_teste-common.toml");
+
+        context.registerExtensionPoint(
+                IExtensionPoint.DisplayTest.class,
+                () -> new IExtensionPoint.DisplayTest(
+                        () -> NetworkConstants.IGNORESERVERONLY,
+                        (remoteVersion, isFromServer) -> true
+                )
+        );
+
+        ModNetwork.register();
     }
 
     private static Path worldDataFolder;
@@ -84,13 +98,16 @@ public class ExampleMod
                                         "mensagem"
                                 );
 
-                                Component texto = Component.translatable(
-                                        "command.mod_de_teste.announcement",
-                                        mensagem
-                                );
-
-                                context.getSource().getServer().getPlayerList()
-                                        .broadcastSystemMessage(texto, false);
+                                for (ServerPlayer player : context.getSource().getServer().getPlayerList().getPlayers()) {
+                                    player.sendSystemMessage(
+                                            ModMessages.get(
+                                                    player,
+                                                    "command.mod_de_teste.announcement",
+                                                    "[Announcement] " + mensagem,
+                                                    mensagem
+                                            )
+                                    );
+                                }
 
                                 return 1;
                             }))

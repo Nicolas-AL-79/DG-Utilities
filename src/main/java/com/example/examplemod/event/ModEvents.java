@@ -3,9 +3,9 @@ package com.example.examplemod.event;
 import com.example.examplemod.manager.AFKManager;
 import com.example.examplemod.manager.ForbiddenItemsManager;
 import com.example.examplemod.manager.PunishmentManager;
+import com.example.examplemod.util.ModMessages;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -76,8 +76,13 @@ public class ModEvents {
         ServerPlayer player = event.getPlayer();
         if (PunishmentManager.isMuted(player)) {
             event.setCanceled(true);
-            player.sendSystemMessage(Component.translatable(
-                    "command.mod_de_teste.event.muted"));
+            player.sendSystemMessage(
+                    ModMessages.get(
+                            player,
+                            "command.mod_de_teste.event.muted",
+                            "You are muted and cannot speak."
+                    )
+            );
         }
     }
 
@@ -89,7 +94,13 @@ public class ModEvents {
         if (player instanceof ServerPlayer serverPlayer
                 && PunishmentManager.isFrozen(serverPlayer)) {
             event.setCanceled(true);
-            serverPlayer.sendSystemMessage(Component.translatable("command.mod_de_teste.event.frozen_break"));
+            serverPlayer.sendSystemMessage(
+                    ModMessages.get(
+                            serverPlayer,
+                            "command.mod_de_teste.event.frozen_break",
+                            "You cannot break blocks while frozen!"
+                    )
+            );
         }
     }
 

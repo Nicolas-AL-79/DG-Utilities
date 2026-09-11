@@ -2,11 +2,11 @@ package com.example.examplemod.command;
 
 import com.example.examplemod.Config;
 import com.example.examplemod.manager.PunishmentManager;
+import com.example.examplemod.util.ModMessages;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Collection;
@@ -21,11 +21,21 @@ public class FreezeCommand {
 
                             for (ServerPlayer player : players) {
                                 PunishmentManager.setFrozen(player, true);
-                                player.sendSystemMessage(Component.translatable("command.mod_de_teste.freeze.frozen"));
+                                player.sendSystemMessage(ModMessages.get(
+                                        player,
+                                        "command.mod_de_teste.freeze.frozen",
+                                        "You have been frozen."
+                                ));
                             }
 
                             context.getSource().sendSuccess(() ->
-                                    Component.translatable("command.mod_de_teste.freeze.success", players.size()), true);
+                                    ModMessages.get(
+                                            context.getSource(),
+                                            "command.mod_de_teste.freeze.success",
+                                            players.size() + " player(s) have been frozen.",
+                                            players.size()
+                                    ), false
+                            );
 
                             return players.size();
                         })
@@ -40,11 +50,23 @@ public class FreezeCommand {
 
                             for (ServerPlayer player : players) {
                                 PunishmentManager.setFrozen(player, false);
-                                player.sendSystemMessage(Component.translatable("command.mod_de_teste.unfreeze.unfrozen"));
+                                player.sendSystemMessage(
+                                        ModMessages.get(
+                                                player,
+                                                "command.mod_de_teste.unfreeze.unfrozen",
+                                                "You have been unfrozen!"
+                                        )
+                                );
                             }
 
                             context.getSource().sendSuccess(() ->
-                                    Component.translatable("command.mod_de_teste.unfreeze.success", players.size()), true);
+                                    ModMessages.get(
+                                            context.getSource(),
+                                            "command.mod_de_teste.unfreeze.success",
+                                            players.size() + " player(s) have been unfrozen.",
+                                            players.size()
+                                    ), false
+                            );
 
                             return players.size();
                         })

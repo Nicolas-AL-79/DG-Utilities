@@ -1,11 +1,11 @@
 package com.example.examplemod.command;
 
 import com.example.examplemod.Config;
+import com.example.examplemod.util.ModMessages;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Collection;
@@ -26,7 +26,13 @@ public class HealCommand {
                             }
 
                             context.getSource().sendSuccess(() ->
-                                    Component.translatable("command.mod_de_teste.heal.success", players.size()), true);
+                                    ModMessages.get(
+                                            context.getSource(),
+                                            "command.mod_de_teste.heal.success",
+                                            players.size() + " player(s) have been healed.",
+                                            players.size()
+                                    ), false
+                            );
 
                             return players.size();
                         })
