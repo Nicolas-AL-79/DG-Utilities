@@ -31,6 +31,7 @@ public class ModEvents {
         ItemStack itemStack = event.getItem().getItem();
 
         if (ForbiddenItemsManager.isForbidden(player.getUUID(), itemStack.getItem())) {
+            event.getItem().discard();
             event.setCanceled(true);
         }
     }
@@ -46,7 +47,6 @@ public class ModEvents {
 
                 if (!stack.isEmpty() && ForbiddenItemsManager.isForbidden(player.getUUID(), stack.getItem())) {
                     player.getInventory().removeItemNoUpdate(i);
-                    player.drop(stack, false, true);
                 }
             }
 
