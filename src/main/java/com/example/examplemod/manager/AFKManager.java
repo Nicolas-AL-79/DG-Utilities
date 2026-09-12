@@ -1,5 +1,6 @@
 package com.example.examplemod.manager;
 
+import com.example.examplemod.util.MobTargetUtils;
 import com.example.examplemod.util.ModMessages;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
@@ -96,12 +97,7 @@ public class AFKManager {
                 );
 
                 // Faz todos os monstros ao redor que já estavam te seguindo perderem o alvo
-                java.util.List<net.minecraft.world.entity.Mob> mobs = player.level().getEntitiesOfClass(net.minecraft.world.entity.Mob.class, player.getBoundingBox().inflate(32.0));
-                for (net.minecraft.world.entity.Mob mob : mobs) {
-                    if (mob.getTarget() == player) {
-                        mob.setTarget(null);
-                    }
-                }
+                MobTargetUtils.clearNearbyMobTargets(player, 32.0);
             }
         } else if (AFK_PLAYERS.containsKey(uuid)) {
             AFKData data = AFK_PLAYERS.get(uuid);

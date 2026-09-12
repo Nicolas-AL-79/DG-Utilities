@@ -2,6 +2,7 @@ package com.example.examplemod.command;
 
 import com.example.examplemod.Config;
 import com.example.examplemod.manager.PunishmentManager;
+import com.example.examplemod.util.MobTargetUtils;
 import com.example.examplemod.util.ModMessages;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
@@ -21,6 +22,7 @@ public class FreezeCommand {
 
                             for (ServerPlayer player : players) {
                                 PunishmentManager.setFrozen(player, true);
+                                MobTargetUtils.clearNearbyMobTargets(player, 32.0);
                                 player.sendSystemMessage(ModMessages.get(
                                         player,
                                         "command.mod_de_teste.freeze.frozen",
