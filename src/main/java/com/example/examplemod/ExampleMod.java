@@ -3,6 +3,7 @@ package com.example.examplemod;
 import com.example.examplemod.command.*;
 import com.example.examplemod.invsee.InvseeCommand;
 import com.example.examplemod.manager.ForbiddenItemsManager;
+import com.example.examplemod.manager.PunishmentRegistry;
 import com.example.examplemod.network.ModNetwork;
 import com.example.examplemod.util.ModMessages;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -69,8 +70,9 @@ public class ExampleMod
                     e
             );
         }
-        // Carrega os itens proibidos salvos no arquivo JSON quando o mundo/servidor ligar
+        // Carrega e salva os arquivos JSON quando o mundo/servidor ligar
         ForbiddenItemsManager.load();
+        PunishmentRegistry.load();
     }
 
     public static Path getWorldDataFolder() {
@@ -150,6 +152,10 @@ public class ExampleMod
         // Invsee
         if (Config.COMMAND_INVSEE_ENABLED.get()) {
             InvseeCommand.register(event.getDispatcher());
+        }
+
+        if (Config.COMMAND_FREEZE_ENABLED.get() || Config.COMMAND_MUTE_ENABLED.get()) {
+            PunishmentCheckCommand.register(event.getDispatcher());
         }
     }
 }

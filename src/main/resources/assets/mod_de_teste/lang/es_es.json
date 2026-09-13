@@ -8,11 +8,17 @@
   "command.mod_de_teste.freeze.success": "%s jugador(es) han sido congelados.",
   "command.mod_de_teste.unfreeze.unfrozen": "§a¡Has sido descongelado!",
   "command.mod_de_teste.unfreeze.success": "%s jugador(es) han sido descongelados.",
+  "command.mod_de_teste.freeze.frozen_timed": "Has sido congelado durante %s.",
+  "command.mod_de_teste.freeze.success_timed": "%s jugador(es) han sido congelados durante %s.",
+  "command.mod_de_teste.event.frozen_break": "§c¡No puedes romper bloques mientras estás congelado!",
 
   "command.mod_de_teste.mute.muted": "§c¡Has sido silenciado en el servidor!",
   "command.mod_de_teste.mute.success": "%s jugador(es) han sido silenciados.",
   "command.mod_de_teste.unmute.unmuted": "§a¡Has sido dessilenciado!",
   "command.mod_de_teste.unmute.success": "%s jugador(es) han sido dessilenciados.",
+  "command.mod_de_teste.mute.muted_timed": "Has sido silenciado durante %s.",
+  "command.mod_de_teste.mute.success_timed": "%s jugador(es) han sido silenciados durante %s.",
+  "command.mod_de_teste.event.muted": "§cEstás silenciado y no puedes hablar.",
 
   "command.mod_de_teste.ignore.ignored": "§eAhora estás ignorando los mensajes de %s.",
   "command.mod_de_teste.ignore.unignored": "§aYa no estás ignorando a %s.",
@@ -53,6 +59,16 @@
   "command.mod_de_teste.afk.cancel_pending": "§cConteo de AFK cancelado por movimiento.",
   "command.mod_de_teste.afk.already": "§e¡Ya estás en modo AFK!",
 
-  "command.mod_de_teste.event.muted": "§cEstás silenciado y no puedes hablar.",
-  "command.mod_de_teste.event.frozen_break": "§c¡No puedes romper bloques mientras estás congelado!"
+  "command.mod_de_teste.punishment.invalid_duration": "Duración inválida. Usa s, m, h o d. Ejemplo: 30s, 10m, 2h, 3d.",
+
+  "command.mod_de_teste.punishments.none": "No hay castigos activos.",
+  "command.mod_de_teste.punishments.header": "Castigos activos:",
+  "command.mod_de_teste.punishments.player": "%s:",
+  "command.mod_de_teste.punishments.freeze": "- Freeze: %s",
+  "command.mod_de_teste.punishments.mute": "- Mute: %s",
+  "command.mod_de_teste.punishments.permanent": "Permanente",
+  "command.mod_de_teste.checkfreeze.none": "%s no está congelado.",
+  "command.mod_de_teste.checkfreeze.active": "%s está congelado. Tiempo restante: %s",
+  "command.mod_de_teste.checkmute.none": "%s no está silenciado.",
+  "command.mod_de_teste.checkmute.active": "%s está silenciado. Tiempo restante: %s"
 }
