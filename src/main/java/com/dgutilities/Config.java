@@ -21,11 +21,11 @@ public class Config
             .defineInRange("commands.announcement.permission_level", 2, 0, 4);
 
     public static final ForgeConfigSpec.BooleanValue COMMAND_FORBID_ENABLED = BUILDER
-            .comment("Enables or disables the /forbid and /allow commands")
+            .comment("Enables or disables the /item commands")
             .define("commands.forbid.enabled", true);
 
     public static final ForgeConfigSpec.IntValue COMMAND_FORBID_PERMISSION_LEVEL = BUILDER
-            .comment("Permission level required to use /forbid and /allow. 0 = any player, 1-4 = operator level")
+            .comment("Permission level required to use /item. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.forbid.permission_level", 3, 0, 4);
 
     public static final ForgeConfigSpec.BooleanValue COMMAND_HEAL_ENABLED = BUILDER
@@ -71,6 +71,14 @@ public class Config
     public static final ForgeConfigSpec.IntValue COMMAND_AFK_PERMISSION_LEVEL = BUILDER
             .comment("Permission level required to use /afk. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.afk.permission_level", 0, 0, 4);
+
+    public static final ForgeConfigSpec.BooleanValue AUTO_AFK_ENABLED = BUILDER
+            .comment("Enables or disables automatic AFK detection")
+            .define("commands.afk.auto_enabled", true);
+
+    public static final ForgeConfigSpec.IntValue AUTO_AFK_TIME_MINUTES = BUILDER
+            .comment("Minutes without movement or camera rotation before automatically entering AFK mode")
+            .defineInRange("commands.afk.auto_time_minutes", 5, 1, 1440);
 
     public static final ForgeConfigSpec.BooleanValue COMMAND_INVSEE_ENABLED = BUILDER
             .comment("Enables or disables the /invsee command")

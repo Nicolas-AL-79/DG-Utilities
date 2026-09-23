@@ -6,6 +6,7 @@ import com.dgutilities.admin.manager.PunishmentManager;
 import com.dgutilities.common.util.ModMessages;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -63,6 +64,36 @@ public class ModEvents {
             if (player instanceof ServerPlayer serverPlayer) {
                 AFKManager.checkMovement(serverPlayer);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        AFKManager.tickAutoAFK(event.getServer());
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            AFKManager.registerPlayer(player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            AFKManager.removePlayer(player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onTabListName(PlayerEvent.TabListNameFormat event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        if (AFKManager.isAFK(player.getUUID())) {
+            event.setDisplayName(
+                    Component.literal("[AFK] ").append(player.getName())
+            );
         }
     }
 

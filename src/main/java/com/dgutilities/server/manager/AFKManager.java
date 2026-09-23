@@ -2,8 +2,11 @@ package com.dgutilities.server.manager;
 
 import com.dgutilities.common.util.MobTargetUtils;
 import com.dgutilities.common.util.ModMessages;
+import com.dgutilities.Config;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.Mth;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +31,38 @@ public class AFKManager {
     public static final Map<UUID, AFKData> PENDING_AFK = new HashMap<>();
     public static final Map<UUID, AFKData> AFK_PLAYERS = new HashMap<>();
 
+    private static final Map<UUID, AutoAFKData> AUTO_AFK_DATA = new HashMap<>();
+
+    private static int autoAFKTickCounter = 0;
+
+    private static class AutoAFKData {
+        private Vec3 lastPosition;
+        private float lastYRot;
+        private float lastXRot;
+        private int inactiveMinutes;
+
+        private AutoAFKData(Vec3 lastPosition, float lastYRot, float lastXRot) {
+            this.lastPosition = lastPosition;
+            this.lastYRot = lastYRot;
+            this.lastXRot = lastXRot;
+            this.inactiveMinutes = 0;
+        }
+    }
+
+    public static void registerPlayer(ServerPlayer player) {
+        AUTO_AFK_DATA.put(player.getUUID(),
+                new AutoAFKData(player.position(), player.getYRot(), player.getXRot())
+        );
+    }
+
+    public static void removePlayer(ServerPlayer player) {
+        UUID uuid = player.getUUID();
+
+        AUTO_AFK_DATA.remove(uuid);
+        PENDING_AFK.remove(uuid);
+        AFK_PLAYERS.remove(uuid);
+    }
+
     public static void startPending(ServerPlayer player) {
         if (AFK_PLAYERS.containsKey(player.getUUID())) {
             player.sendSystemMessage(
@@ -49,6 +84,25 @@ public class AFKManager {
         );
     }
 
+    private static void activateAFK(ServerPlayer player) {
+        UUID uuid = player.getUUID();
+
+        AFK_PLAYERS.put(uuid,
+                new AFKData(System.currentTimeMillis(), player.position(), player.getYRot(), player.getXRot())
+        );
+
+        player.sendSystemMessage(
+                ModMessages.get(
+                        player,
+                        "command.dg_utilities.afk.active",
+                        "AFK mode activated! You are invulnerable, immovable and ignored by monsters. Move your camera or press SHIFT to exit."
+                )
+        );
+
+        MobTargetUtils.clearNearbyMobTargets(player, 32.0);
+        player.refreshTabListName();
+    }
+
     public static boolean isAFK(UUID uuid) {
         return AFK_PLAYERS.containsKey(uuid);
     }
@@ -62,6 +116,7 @@ public class AFKManager {
                             "AFK mode deactivated due to movement."
                     )
             );
+            player.refreshTabListName();
         }
         if (PENDING_AFK.remove(player.getUUID()) != null) {
             player.sendSystemMessage(
@@ -72,6 +127,13 @@ public class AFKManager {
                     )
             );
         }
+        AUTO_AFK_DATA.put(player.getUUID(),
+                new AutoAFKData(
+                        player.position(),
+                        player.getYRot(),
+                        player.getXRot()
+                )
+        );
     }
 
     public static void checkMovement(ServerPlayer player) {
@@ -87,17 +149,7 @@ public class AFKManager {
                 cancelAFK(player);
             } else if (System.currentTimeMillis() - data.startTime >= 5000) {
                 PENDING_AFK.remove(uuid);
-                AFK_PLAYERS.put(uuid, new AFKData(System.currentTimeMillis(), currentPos, currentYRot, currentXRot));
-                player.sendSystemMessage(
-                        ModMessages.get(
-                                player,
-                                "command.dg_utilities.afk.active",
-                                "AFK mode activated! You are invulnerable, immovable and ignored by monsters. Move your camera or press SHIFT to exit."
-                        )
-                );
-
-                // Faz todos os monstros ao redor que já estavam te seguindo perderem o alvo
-                MobTargetUtils.clearNearbyMobTargets(player, 32.0);
+                activateAFK(player);
             }
         } else if (AFK_PLAYERS.containsKey(uuid)) {
             AFKData data = AFK_PLAYERS.get(uuid);
@@ -107,6 +159,55 @@ public class AFKManager {
             } else if (currentPos.distanceToSqr(data.startPos) > 0.05) {
                 player.teleportTo(data.startPos.x, data.startPos.y, data.startPos.z);
             }
+        }
+    }
+
+    private static void checkAutoAFK(ServerPlayer player) {
+        UUID uuid = player.getUUID();
+
+        if (AFK_PLAYERS.containsKey(uuid) || PENDING_AFK.containsKey(uuid)) return;
+
+        AutoAFKData data = AUTO_AFK_DATA.get(uuid);
+
+        if (data == null) {
+            registerPlayer(player);
+            return;
+        }
+
+        Vec3 currentPosition = player.position();
+        float currentYRot = player.getYRot();
+        float currentXRot = player.getXRot();
+
+        boolean moved = currentPosition.distanceToSqr(data.lastPosition) > 0.05;
+        boolean rotated = Math.abs(Mth.wrapDegrees(currentYRot - data.lastYRot)) > 1.0f
+                        || Math.abs(currentXRot - data.lastXRot) > 1.0f;
+
+        if (moved || rotated) {
+            data.lastPosition = currentPosition;
+            data.lastYRot = currentYRot;
+            data.lastXRot = currentXRot;
+            data.inactiveMinutes = 0;
+            return;
+        }
+
+        data.inactiveMinutes++;
+        int requiredMinutes = Config.AUTO_AFK_TIME_MINUTES.get();
+
+        if (data.inactiveMinutes >= requiredMinutes) {
+            activateAFK(player);
+            AUTO_AFK_DATA.remove(uuid);
+        }
+    }
+
+    public static void tickAutoAFK(MinecraftServer server) {
+        if (!Config.AUTO_AFK_ENABLED.get()) return;
+
+        autoAFKTickCounter++;
+        if (autoAFKTickCounter < 1200) return;
+
+        autoAFKTickCounter = 0;
+        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+            checkAutoAFK(player);
         }
     }
 }
