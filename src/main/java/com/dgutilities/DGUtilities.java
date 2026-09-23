@@ -32,7 +32,7 @@ import java.nio.file.Path;
 public class DGUtilities
 {
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "dg_essentials";
+    public static final String MODID = "dg_utilities";
 
     public DGUtilities(FMLJavaModLoadingContext context)
     {
@@ -40,7 +40,7 @@ public class DGUtilities
         MinecraftForge.EVENT_BUS.register(this);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC, MODID + "/dg_essentials-common.toml");
+        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC, MODID + "/dg_utilities-common.toml");
 
         context.registerExtensionPoint(
                 IExtensionPoint.DisplayTest.class,
