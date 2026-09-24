@@ -90,11 +90,17 @@ public class ModEvents {
     @SubscribeEvent
     public static void onTabListName(PlayerEvent.TabListNameFormat event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        Component name = player.getName();
         if (AFKManager.isAFK(player.getUUID())) {
-            event.setDisplayName(
-                    Component.literal("[AFK] ").append(player.getName())
-            );
+            name = Component.literal("[AFK] ").append(name);
         }
+        if (PunishmentManager.isMuted(player)) {
+            name = Component.literal("[MUTED] ").append(name);
+        }
+        if (PunishmentManager.isFrozen(player)) {
+            name = Component.literal("[FROZEN] ").append(name);
+        }
+        event.setDisplayName(name);
     }
 
     private static void returnToOpenContainer(ServerPlayer player, ItemStack stack) {

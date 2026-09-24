@@ -45,6 +45,7 @@ public class PunishmentManager {
             );
         }
         player.getPersistentData().put(NBT_KEY, data);
+        player.refreshTabListName();
     }
 
     public static void setFrozen(ServerPlayer player, boolean frozen) {
@@ -119,6 +120,7 @@ public class PunishmentManager {
             );
         }
         player.getPersistentData().put(NBT_KEY, data);
+        player.refreshTabListName();
     }
 
     public static void setMuted(ServerPlayer player, boolean muted) {

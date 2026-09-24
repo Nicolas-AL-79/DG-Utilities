@@ -21,6 +21,7 @@ public class IgnoreCommand {
                             }
 
                             IgnoreManager.ignore(target.getProfile().getId());
+                            IgnoredTabManager.update();
 
                             sendMessage(Component.translatable("command.dg_utilities.ignore.ignored",
                                     target.getProfile().getName()));
@@ -41,6 +42,7 @@ public class IgnoreCommand {
                             }
 
                             IgnoreManager.unignore(target.getProfile().getId());
+                            IgnoredTabManager.update();
 
                             sendMessage(Component.translatable("command.dg_utilities.ignore.unignored",
                                     target.getProfile().getName()));

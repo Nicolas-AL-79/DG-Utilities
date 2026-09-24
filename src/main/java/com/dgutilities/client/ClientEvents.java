@@ -9,6 +9,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(
@@ -17,7 +18,6 @@ import net.minecraftforge.fml.common.Mod;
         value = Dist.CLIENT
 )
 public class ClientEvents {
-
     @SubscribeEvent
     public static void registerClientCommands(
             RegisterClientCommandsEvent event
@@ -45,5 +45,21 @@ public class ClientEvents {
         )) {
             event.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    public static void onClientLogout(ClientPlayerNetworkEvent.LoggingOut event) {
+        IgnoredTabManager.clear();
+        ignoredTabTickCounter = 0;
+    }
+
+    private static int ignoredTabTickCounter = 0;
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        ignoredTabTickCounter++;
+        if (ignoredTabTickCounter < 20) return;
+        ignoredTabTickCounter = 0;
+        IgnoredTabManager.update();
     }
 }
