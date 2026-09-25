@@ -186,12 +186,6 @@ public class DimensionAccessManager {
         return hasRequiredKey(player, dimension);
     }
 
-    public static boolean canUseBlockedPortal(ServerPlayer player, ResourceLocation dimension) {
-        if (!isPortalBlocked(dimension)) return true;
-        if (hasBypass(player.getUUID(), dimension)) return true;
-        return hasRequiredKey(player, dimension);
-    }
-
     // ----------------------------------------------------
     // SAVE / LOAD
     // ----------------------------------------------------

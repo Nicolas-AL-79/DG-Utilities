@@ -5,6 +5,7 @@ import com.dgutilities.server.manager.AFKManager;
 import com.dgutilities.admin.manager.ForbiddenItemsManager;
 import com.dgutilities.admin.manager.PunishmentManager;
 import com.dgutilities.common.util.ModMessages;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -16,6 +17,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EndPortalFrameBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
@@ -29,6 +36,9 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Locale;
 
 @Mod.EventBusSubscriber(modid = "dg_utilities")
 public class ModEvents {
@@ -155,9 +165,8 @@ public class ModEvents {
     public static void onTravelToDimension(EntityTravelToDimensionEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         ResourceLocation dimension = event.getDimension().location();
-        if (DimensionAccessManager.canAccess(player, dimension)) return;
+        if (!DimensionAccessManager.canAccess(player, dimension)) {
         event.setCanceled(true);
-
         player.sendSystemMessage(ModMessages.get(
                 player,
                 "command.dg_utilities.dimension.access_denied",
@@ -165,8 +174,20 @@ public class ModEvents {
                         + dimension
                         + ".",
                 dimension.toString()
-                )
-        );
+        ));
+        return;
+        }
+        if (DimensionAccessManager.isPortalBlocked(dimension) && isPlayerInsidePortal(player)) {
+            event.setCanceled(true);
+            player.sendSystemMessage(ModMessages.get(
+                    player,
+                    "command.dg_utilities.portal.access_denied",
+                    "Access to "
+                            + dimension
+                            + " through portals is disabled.",
+                    dimension.toString()
+            ));
+        }
     }
 
     @SubscribeEvent
@@ -235,8 +256,28 @@ public class ModEvents {
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (event.getLevel().isClientSide()) return;
         Player player = event.getEntity();
-        if (player instanceof ServerPlayer serverPlayer && PunishmentManager.isFrozen(serverPlayer)) {
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
+        // Freeze
+        if (PunishmentManager.isFrozen(serverPlayer)) {
             event.setCanceled(true);
+            return;
+        }
+        // End Portal
+        BlockState state = event.getLevel().getBlockState(event.getPos());
+        if (DimensionAccessManager.isPortalBlocked(Level.END.location())
+                && event.getItemStack().is(Items.ENDER_EYE)
+                && state.is(Blocks.END_PORTAL_FRAME)
+                && !state.getValue(EndPortalFrameBlock.HAS_EYE)) {
+            event.setCanceled(true);
+            serverPlayer.sendSystemMessage(
+                    ModMessages.get(
+                            serverPlayer,
+                            "command.dg_utilities.portal.end_disabled",
+                            "The End portal is currently disabled."
+                    )
+            );
         }
     }
 
@@ -318,5 +359,39 @@ public class ModEvents {
                 && PunishmentManager.isFrozen(serverPlayer)) {
             event.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    public static void onNetherPortalSpawn(BlockEvent.PortalSpawnEvent event) {
+        if (!DimensionAccessManager.isPortalBlocked(Level.NETHER.location())) return;
+        event.setCanceled(true);
+    }
+
+    private static boolean isPortalBlock(BlockState state) {
+        ResourceLocation id = ForgeRegistries.BLOCKS.getKey(state.getBlock());
+        if (id == null) return false;
+        return id.getPath().toLowerCase(Locale.ROOT).contains("portal");
+    }
+
+    private static boolean isPlayerInsidePortal(ServerPlayer player) {
+        AABB boundingBox = player.getBoundingBox().inflate(0.1);
+
+        int minX = (int) Math.floor(boundingBox.minX);
+        int minY = (int) Math.floor(boundingBox.minY);
+        int minZ = (int) Math.floor(boundingBox.minZ);
+
+        int maxX = (int) Math.floor(boundingBox.maxX);
+        int maxY = (int) Math.floor(boundingBox.maxY);
+        int maxZ = (int) Math.floor(boundingBox.maxZ);
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    BlockState state = player.level().getBlockState(new BlockPos(x, y, z));
+                    if (isPortalBlock(state)) return true;
+                }
+            }
+        }
+        return false;
     }
 }

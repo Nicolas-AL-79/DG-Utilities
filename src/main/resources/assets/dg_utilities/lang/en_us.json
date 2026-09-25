@@ -112,5 +112,8 @@
   "command.dg_utilities.dimensionkey.remove.none": "Dimension %s has no configured key.",
   "command.dg_utilities.dimensionkey.remove.success": "The key for %s has been removed.",
 
-  "command.dg_utilities.dimension.access_denied": "§cYou do not have access to dimension %s."
+  "command.dg_utilities.dimension.access_denied": "§cYou do not have access to dimension %s.",
+
+  "command.dg_utilities.portal.access_denied": "§cAccess to %s through portals is currently disabled.",
+  "command.dg_utilities.portal.end_disabled": "§cThe End portal is currently disabled."
 }

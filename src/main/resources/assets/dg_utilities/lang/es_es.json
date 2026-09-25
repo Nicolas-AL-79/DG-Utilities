@@ -112,5 +112,8 @@
   "command.dg_utilities.dimensionkey.remove.none": "La dimensión %s no tiene una llave configurada.",
   "command.dg_utilities.dimensionkey.remove.success": "La llave de %s ha sido eliminada.",
 
-  "command.dg_utilities.dimension.access_denied": "§cNo tienes acceso a la dimensión %s."
+  "command.dg_utilities.dimension.access_denied": "§cNo tienes acceso a la dimensión %s.",
+
+  "command.dg_utilities.portal.access_denied": "§cEl acceso a la dimensión %s a través de portales está desactivado actualmente.",
+  "command.dg_utilities.portal.end_disabled": "§cEl Portal del End está desactivado actualmente."
 }
