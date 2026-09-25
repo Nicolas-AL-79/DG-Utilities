@@ -88,5 +88,13 @@ public class Config
             .comment("Permission level required to use /invsee. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.invsee.permission_level", 2, 0, 4);
 
+    public static final ForgeConfigSpec.BooleanValue COMMAND_DIMENSION_ENABLED = BUILDER
+            .comment("Enables or disables dimension access management commands")
+            .define("commands.dimension.enabled", true);
+
+    public static final ForgeConfigSpec.IntValue COMMAND_DIMENSION_PERMISSION_LEVEL = BUILDER
+            .comment("Permission level required to manage dimension access. 0 = any player, 1-4 = operator level")
+            .defineInRange("commands.dimension.permission_level", 3, 0, 4);
+
     static final ForgeConfigSpec SPEC = BUILDER.build();
 }

@@ -70,5 +70,47 @@
   "command.dg_utilities.checkfreeze.none": "%s não está congelado.",
   "command.dg_utilities.checkfreeze.active": "%s está congelado. Tempo restante: %s",
   "command.dg_utilities.checkmute.none": "%s não está silenciado.",
-  "command.dg_utilities.checkmute.active": "%s está silenciado. Tempo restante: %s"
+  "command.dg_utilities.checkmute.active": "%s está silenciado. Tempo restante: %s",
+
+  "command.dg_utilities.dimensionblock.list.empty": "Não existem dimensões bloqueadas.",
+  "command.dg_utilities.dimensionblock.list": "Dimensões bloqueadas: %s",
+  "command.dg_utilities.dimensionblock.already": "A dimensão %s já está bloqueada.",
+  "command.dg_utilities.dimensionblock.success": "A dimensão %s foi bloqueada.",
+
+  "command.dg_utilities.dimensionunblock.not_blocked": "A dimensão %s não está bloqueada.",
+  "command.dg_utilities.dimensionunblock.success": "A dimensão %s foi desbloqueada.",
+
+  "command.dg_utilities.portalblock.list.empty": "Não existem portais desativados.",
+  "command.dg_utilities.portalblock.list": "Portais desativados: %s",
+  "command.dg_utilities.portalblock.already": "O portal para %s já está desativado.",
+  "command.dg_utilities.portalblock.success": "O portal para %s foi desativado.",
+
+  "command.dg_utilities.portalunblock.not_blocked": "O portal para %s não está desativado.",
+  "command.dg_utilities.portalunblock.success": "O portal para %s foi ativado.",
+
+  "command.dg_utilities.dimensionallow.already": "%s já possui acesso à dimensão %s.",
+  "command.dg_utilities.dimensionallow.success": "%s agora pode acessar a dimensão %s.",
+  "command.dg_utilities.dimensionallow.list.empty": "%s não possui bypass de dimensão.",
+  "command.dg_utilities.dimensionallow.list": "%s pode acessar: %s",
+
+  "command.dg_utilities.dimensiondisallow.not_allowed": "%s não possui bypass para a dimensão %s.",
+  "command.dg_utilities.dimensiondisallow.success": "O acesso de %s à dimensão %s foi removido.",
+  "command.dg_utilities.dimensiondisallow.all.empty": "%s não possui bypass de dimensão.",
+  "command.dg_utilities.dimensiondisallow.all.success": "Todos os bypasses de dimensão foram removidos de %s.",
+
+  "command.dg_utilities.dimensionaccess.empty": "Nenhum jogador possui bypass de dimensão.",
+  "command.dg_utilities.dimensionaccess.header": "Jogadores com acesso a dimensões:",
+  "command.dg_utilities.dimensionaccess.dimension.header": "Jogadores com acesso à dimensão %s:",
+  "command.dg_utilities.dimensionaccess.dimension.empty": "Nenhum jogador possui bypass para a dimensão %s.",
+
+  "command.dg_utilities.dimensionkey.list.empty": "Nenhuma chave de dimensão está configurada.",
+  "command.dg_utilities.dimensionkey.list.header": "Chaves de dimensão:",
+  "command.dg_utilities.dimensionkey.check.none": "Nenhuma chave é necessária para a dimensão %s.",
+  "command.dg_utilities.dimensionkey.check": "Chave para %s: %s",
+  "command.dg_utilities.dimensionkey.set.same": "Esse item já é a chave da dimensão %s.",
+  "command.dg_utilities.dimensionkey.set.success": "%s agora é a chave da dimensão %s.",
+  "command.dg_utilities.dimensionkey.remove.none": "A dimensão %s não possui uma chave configurada.",
+  "command.dg_utilities.dimensionkey.remove.success": "A chave da dimensão %s foi removida.",
+
+  "command.dg_utilities.dimension.access_denied": "§cVocê não possui acesso à dimensão %s."
 }

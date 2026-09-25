@@ -1,5 +1,6 @@
 package com.dgutilities.common.event;
 
+import com.dgutilities.admin.manager.DimensionAccessManager;
 import com.dgutilities.server.manager.AFKManager;
 import com.dgutilities.admin.manager.ForbiddenItemsManager;
 import com.dgutilities.admin.manager.PunishmentManager;
@@ -7,6 +8,7 @@ import com.dgutilities.common.util.ModMessages;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -16,6 +18,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
@@ -148,10 +151,23 @@ public class ModEvents {
         menu.broadcastChanges();
     }
 
-    // ----------------------------------------------------
-    // NOVOS EVENTOS PARA PUNIÇÕES E UTILIDADES
-    // ----------------------------------------------------
+    @SubscribeEvent
+    public static void onTravelToDimension(EntityTravelToDimensionEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        ResourceLocation dimension = event.getDimension().location();
+        if (DimensionAccessManager.canAccess(player, dimension)) return;
+        event.setCanceled(true);
 
+        player.sendSystemMessage(ModMessages.get(
+                player,
+                "command.dg_utilities.dimension.access_denied",
+                "You do not have access to dimension "
+                        + dimension
+                        + ".",
+                dimension.toString()
+                )
+        );
+    }
 
     @SubscribeEvent
     public static void onPickupItem(EntityItemPickupEvent event) {

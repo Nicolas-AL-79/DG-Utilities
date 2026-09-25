@@ -70,5 +70,47 @@
   "command.dg_utilities.checkfreeze.none": "%s is not frozen.",
   "command.dg_utilities.checkfreeze.active": "%s is frozen. Remaining: %s",
   "command.dg_utilities.checkmute.none": "%s is not muted.",
-  "command.dg_utilities.checkmute.active": "%s is muted. Remaining: %s"
+  "command.dg_utilities.checkmute.active": "%s is muted. Remaining: %s",
+
+  "command.dg_utilities.dimensionblock.list.empty": "There are no blocked dimensions.",
+  "command.dg_utilities.dimensionblock.list": "Blocked dimensions: %s",
+  "command.dg_utilities.dimensionblock.already": "Dimension %s is already blocked.",
+  "command.dg_utilities.dimensionblock.success": "Dimension %s has been blocked.",
+
+  "command.dg_utilities.dimensionunblock.not_blocked": "Dimension %s is not blocked.",
+  "command.dg_utilities.dimensionunblock.success": "Dimension %s has been unblocked.",
+
+  "command.dg_utilities.portalblock.list.empty": "There are no disabled portals.",
+  "command.dg_utilities.portalblock.list": "Disabled portals: %s",
+  "command.dg_utilities.portalblock.already": "Portal for %s is already disabled.",
+  "command.dg_utilities.portalblock.success": "Portal for %s has been disabled.",
+
+  "command.dg_utilities.portalunblock.not_blocked": "Portal for %s is not disabled.",
+  "command.dg_utilities.portalunblock.success": "Portal for %s has been enabled.",
+
+  "command.dg_utilities.dimensionallow.already": "%s already has access to %s.",
+  "command.dg_utilities.dimensionallow.success": "%s can now access %s.",
+  "command.dg_utilities.dimensionallow.list.empty": "%s has no dimension bypasses.",
+  "command.dg_utilities.dimensionallow.list": "%s can access: %s",
+
+  "command.dg_utilities.dimensiondisallow.not_allowed": "%s has no bypass for %s.",
+  "command.dg_utilities.dimensiondisallow.success": "Access to %s was removed from %s.",
+  "command.dg_utilities.dimensiondisallow.all.empty": "%s has no dimension bypasses.",
+  "command.dg_utilities.dimensiondisallow.all.success": "All dimension bypasses were removed from %s.",
+
+  "command.dg_utilities.dimensionaccess.empty": "No players have dimension bypasses.",
+  "command.dg_utilities.dimensionaccess.header": "Players with dimension access:",
+  "command.dg_utilities.dimensionaccess.dimension.header": "Players with access to %s:",
+  "command.dg_utilities.dimensionaccess.dimension.empty": "No players have a bypass for %s.",
+
+  "command.dg_utilities.dimensionkey.list.empty": "No dimension keys are configured.",
+  "command.dg_utilities.dimensionkey.list.header": "Dimension keys:",
+  "command.dg_utilities.dimensionkey.check.none": "No key is required for %s.",
+  "command.dg_utilities.dimensionkey.check": "Key for %s: %s",
+  "command.dg_utilities.dimensionkey.set.same": "That item is already the key for %s.",
+  "command.dg_utilities.dimensionkey.set.success": "%s is now the key for %s.",
+  "command.dg_utilities.dimensionkey.remove.none": "Dimension %s has no configured key.",
+  "command.dg_utilities.dimensionkey.remove.success": "The key for %s has been removed.",
+
+  "command.dg_utilities.dimension.access_denied": "§cYou do not have access to dimension %s."
 }

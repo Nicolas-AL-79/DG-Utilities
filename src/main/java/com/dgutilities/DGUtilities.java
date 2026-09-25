@@ -2,6 +2,7 @@ package com.dgutilities;
 
 import com.dgutilities.admin.command.*;
 import com.dgutilities.admin.invsee.InvseeCommand;
+import com.dgutilities.admin.manager.DimensionAccessManager;
 import com.dgutilities.admin.manager.ForbiddenItemsManager;
 import com.dgutilities.admin.manager.PunishmentRegistry;
 import com.dgutilities.common.network.ModNetwork;
@@ -75,6 +76,7 @@ public class DGUtilities
         // Carrega e salva os arquivos JSON quando o mundo/servidor ligar
         ForbiddenItemsManager.load();
         PunishmentRegistry.load();
+        DimensionAccessManager.load();
     }
 
     public static Path getWorldDataFolder() {
@@ -90,31 +92,23 @@ public class DGUtilities
     public void registrarComandos(RegisterCommandsEvent event) {
         if (Config.COMMAND_ANNOUNCEMENT_ENABLED.get()) {
             // Announcement
-            event.getDispatcher().register(
-                    Commands.literal("announcement")
-                            .requires(source -> source.hasPermission(Config.COMMAND_ANNOUNCEMENT_PERMISSION_LEVEL.get()))
-                            .then(Commands.argument(
-                                    "mensagem",
-                                    StringArgumentType.greedyString()
-                            ).executes(context -> {
-                                String mensagem = StringArgumentType.getString(
-                                        context,
-                                        "mensagem"
-                                );
+            event.getDispatcher().register(Commands.literal("announcement")
+                    .requires(source -> source.hasPermission(Config.COMMAND_ANNOUNCEMENT_PERMISSION_LEVEL.get()))
+                    .then(Commands.argument("mensagem", StringArgumentType.greedyString())
+                            .executes(context -> {
+                                String mensagem = StringArgumentType.getString(context, "mensagem");
 
                                 for (ServerPlayer player : context.getSource().getServer().getPlayerList().getPlayers()) {
-                                    player.sendSystemMessage(
-                                            ModMessages.get(
-                                                    player,
-                                                    "command.dg_utilities.announcement",
-                                                    "[Announcement] " + mensagem,
-                                                    mensagem
-                                            )
-                                    );
+                                    player.sendSystemMessage(ModMessages.get(
+                                            player,
+                                            "command.dg_utilities.announcement",
+                                            "[Announcement] " + mensagem,
+                                            mensagem
+                                    ));
                                 }
-
                                 return 1;
-                            }))
+                            })
+                    )
             );
         }
 
@@ -158,6 +152,10 @@ public class DGUtilities
 
         if (Config.COMMAND_FREEZE_ENABLED.get() || Config.COMMAND_MUTE_ENABLED.get()) {
             PunishmentCheckCommand.register(event.getDispatcher());
+        }
+
+        if (Config.COMMAND_DIMENSION_ENABLED.get()) {
+            DimensionCommand.register(event.getDispatcher(), event.getBuildContext());
         }
     }
 }
