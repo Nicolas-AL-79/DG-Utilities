@@ -1,6 +1,6 @@
 # DG Utilities
 
-DG Utilities is a Minecraft Forge mod that adds useful commands and tools for server management, administration, and player convenience.
+DG Utilities is a Minecraft Forge mod that adds useful commands and tools for server management, administration, moderation, and player convenience.
 
 The project is currently under active development, and more features are planned for future versions.
 
@@ -9,7 +9,7 @@ The project is currently under active development, and more features are planned
 - **Minecraft:** 1.20.1
 - **Forge:** 47.4.10
 - **Java:** 17
-- **Current mod version:** 0.5.1
+- **Current mod version:** 0.7.0
 
 ## Features
 
@@ -18,9 +18,15 @@ DG Utilities currently includes:
 - General server utility commands
 - Administration and moderation tools
 - Timed and permanent punishments
+- Automatic and manual AFK systems
+- Player status indicators in the tab list
 - Inventory inspection
 - Persistent item restrictions
 - Player-specific item restriction bypasses
+- Dimension access restrictions
+- Player-specific dimension bypasses
+- Item-based dimension access keys
+- Portal activation and portal travel restrictions
 - Client-side ignore functionality
 - Configurable command permissions
 - Optional client/server behavior
@@ -37,13 +43,25 @@ Permission levels for administrative commands can also be changed through the co
 
 #### `/afk`
 
-Marks the player as AFK.
+Starts the manual AFK activation process.
 
 ```text
 /afk
 ```
 
-While AFK, nearby mobs stop targeting the player.
+The player must remain still for 5 seconds before AFK mode activates.
+
+While AFK:
+
+- The player is protected from damage and knockback.
+- Nearby mobs stop targeting the player.
+- The player cannot move from the AFK position.
+- Moving the camera or pressing SHIFT exits AFK mode.
+- `[AFK]` is displayed next to the player's name in the tab list.
+
+DG Utilities can also automatically place inactive players into AFK mode after a configurable amount of time.
+
+Automatic AFK detection checks player position and camera movement at fixed intervals to reduce server overhead.
 
 **Default permission level:** `0`
 
@@ -104,6 +122,8 @@ Freezes one or more players indefinitely.
 
 A frozen player cannot move or interact normally until the punishment is removed.
 
+Frozen players are also ignored by mobs and display `[FROZEN]` in the tab list.
+
 #### `/freeze <targets> <duration>`
 
 Freezes one or more players for a specific amount of time.
@@ -145,6 +165,8 @@ Mutes one or more players indefinitely.
 ```text
 /mute Player
 ```
+
+Muted players display `[MUTED]` in the tab list.
 
 #### `/mute <targets> <duration>`
 
@@ -230,7 +252,7 @@ The target player's inventory can be viewed and modified through a chest-style i
 
 ## Item Restriction System
 
-DG Utilities includes a persistent item restriction system that allows server administrators to prevent players from using or obtaining specific items.
+DG Utilities includes a persistent item restriction system that allows server administrators to prevent players from obtaining or keeping specific items.
 
 Restrictions are stored per world.
 
@@ -376,6 +398,219 @@ Removes all global and item-specific bypasses from the player.
 
 ---
 
+## Dimension Access System
+
+DG Utilities includes a persistent dimension access system that can restrict access to dimensions, configure player bypasses, assign item-based access keys, and restrict portal use.
+
+Dimension data is stored per world.
+
+Dimension arguments use Minecraft's registered dimension list, so vanilla and registered modded dimensions are available through command suggestions.
+
+### Dimension Blocking
+
+#### `/dimensionblock <dimension>`
+
+Blocks access to a dimension.
+
+```text
+/dimensionblock minecraft:the_nether
+/dimensionblock minecraft:the_end
+```
+
+When a dimension is blocked, players cannot enter it through normal portals, commands, teleport systems, or other dimension-travel mechanics that trigger Forge's dimension travel event.
+
+A player can still enter if they have a bypass for that dimension or possess its configured dimension key.
+
+---
+
+#### `/dimensionunblock <dimension>`
+
+Removes the dimension restriction.
+
+```text
+/dimensionunblock minecraft:the_nether
+```
+
+---
+
+#### `/dimensionblock list`
+
+Displays all currently blocked dimensions.
+
+```text
+/dimensionblock list
+```
+
+This command is public so players can check which dimensions are restricted.
+
+---
+
+### Player Dimension Bypasses
+
+#### `/dimensionallow <player> <dimension>`
+
+Allows a player to bypass the restriction for a specific dimension.
+
+```text
+/dimensionallow Player minecraft:the_end
+```
+
+---
+
+#### `/dimensionallow list <player>`
+
+Displays all dimension bypasses assigned to a player.
+
+```text
+/dimensionallow list Player
+```
+
+---
+
+#### `/dimensiondisallow <player> <dimension>`
+
+Removes a player's bypass for a specific dimension.
+
+```text
+/dimensiondisallow Player minecraft:the_end
+```
+
+---
+
+#### `/dimensiondisallow all <player>`
+
+Removes all dimension bypasses from a player.
+
+```text
+/dimensiondisallow all Player
+```
+
+---
+
+### Dimension Access Information
+
+#### `/dimensionaccess list`
+
+Displays all players that currently have at least one dimension bypass.
+
+```text
+/dimensionaccess list
+```
+
+Stored player names allow this information to remain available even when those players are offline.
+
+---
+
+#### `/dimensionaccess list <dimension>`
+
+Displays players with a bypass for a specific dimension.
+
+```text
+/dimensionaccess list minecraft:the_end
+```
+
+---
+
+### Dimension Keys
+
+A dimension can have an item configured as an access key.
+
+The key is not consumed. The player only needs to carry the required item in their inventory or offhand when attempting to enter a blocked dimension.
+
+#### `/dimensionkey set <dimension> <item>`
+
+Sets the access key for a dimension.
+
+```text
+/dimensionkey set minecraft:the_end minecraft:nether_star
+```
+
+---
+
+#### `/dimensionkey remove <dimension>`
+
+Removes the configured key.
+
+```text
+/dimensionkey remove minecraft:the_end
+```
+
+---
+
+#### `/dimensionkey check <dimension>`
+
+Displays the configured key for a dimension.
+
+```text
+/dimensionkey check minecraft:the_end
+```
+
+This command is public.
+
+---
+
+#### `/dimensionkey list`
+
+Displays every configured dimension key.
+
+```text
+/dimensionkey list
+```
+
+This command is public so players can see which items are required for restricted dimensions.
+
+---
+
+### Portal Blocking
+
+#### `/portalblock <dimension>`
+
+Disables portal-based access to a dimension.
+
+```text
+/portalblock minecraft:the_nether
+/portalblock minecraft:the_end
+```
+
+Portal blocking is separate from full dimension blocking:
+
+- `dimensionblock` prevents access to the dimension regardless of travel method.
+- `portalblock` only prevents portal-based travel to that destination.
+
+For vanilla portals, additional protections are applied:
+
+- **Nether Portal:** newly activated Nether Portals are prevented from forming while Nether portal access is blocked.
+- **End Portal:** Eyes of Ender cannot be inserted into End Portal Frames while End portal access is blocked.
+- **Existing portals:** travel is canceled when a player attempts to enter a portal-blocked dimension while intersecting a portal block.
+
+Portal travel detection checks the player's bounding box against blocks whose registry ID contains `portal`. This also provides basic compatibility with some modded portal implementations, although full compatibility with every modded portal is not guaranteed.
+
+---
+
+#### `/portalunblock <dimension>`
+
+Removes the portal restriction for a dimension.
+
+```text
+/portalunblock minecraft:the_nether
+```
+
+---
+
+#### `/portalblock list`
+
+Displays all dimensions whose portal access is currently disabled.
+
+```text
+/portalblock list
+```
+
+This command is public.
+
+**Default permission level for dimension and portal administration:** `3`
+
+---
+
 ## Client Commands
 
 ### `/ignore <player>`
@@ -386,7 +621,9 @@ Locally ignores messages from another player.
 /ignore Player
 ```
 
-This command is handled on the client side.
+This command is handled entirely on the client side.
+
+Ignored players display a local `[IGNORED]` tag in the tab list. This tag is visible only to the player who ignored them and preserves server-side status tags such as `[AFK]`, `[MUTED]`, and `[FROZEN]`.
 
 ---
 
@@ -399,6 +636,24 @@ Removes a player from the local ignore list.
 ```
 
 Ignored players are stored locally in the client's configuration folder.
+
+---
+
+## Tab List Status Indicators
+
+DG Utilities can display player status directly in the tab list.
+
+Server-side indicators:
+
+- `[AFK]`
+- `[MUTED]`
+- `[FROZEN]`
+
+Client-side indicator:
+
+- `[IGNORED]`
+
+The `[IGNORED]` indicator is private to the client that ignored the player.
 
 ---
 
@@ -428,6 +683,11 @@ Default permission levels:
 | `/mute` | 2 |
 | `/invsee` | 2 |
 | Item restriction commands | 3 |
+| Dimension and portal administration | 3 |
+
+Automatic AFK behavior can also be enabled or disabled and its inactivity timeout can be configured.
+
+Public information commands such as `/dimensionblock list`, `/portalblock list`, `/dimensionkey list`, and `/dimensionkey check <dimension>` do not require administrative permission.
 
 The `/ignore` system is client-side and does not use the server permission system.
 
@@ -443,13 +703,13 @@ The mod can be used in different environments:
 - **Client with DG Utilities + vanilla server:** client-only features such as `/ignore` can still be used.
 - **DG Utilities on both client and server:** all supported functionality is available.
 
-Some messages may use additional localization behavior when both sides have the mod installed.
+Some messages use additional localization behavior when both sides have the mod installed.
 
 ---
 
 ## Data Storage
 
-DG Utilities stores persistent world-specific data inside the current world save.
+DG Utilities stores persistent world-specific data inside the current world save under the mod's data folder.
 
 This includes data such as:
 
@@ -457,6 +717,10 @@ This includes data such as:
 - Player item bypasses
 - Active freeze punishments
 - Active mute punishments
+- Blocked dimensions
+- Portal-blocked dimensions
+- Player dimension bypasses
+- Dimension access keys
 
 Client-only information, such as ignored players, is stored locally in the client's configuration folder.
 
