@@ -55,41 +55,38 @@ public class PunishmentManager {
     /*** Verifica se o jogador está congelado.*/
     public static boolean isFrozen(ServerPlayer player) {
         CompoundTag data = player.getPersistentData().getCompound(NBT_KEY);
-        if (!data.getBoolean(FROZEN_KEY)) return false;
-        long expires = data.getLong(FREEZE_EXPIRES_KEY);
-        if (expires > 0 && System.currentTimeMillis() >= expires) {
-            setFrozen(player, false);
-            return false;
+        boolean frozen = data.getBoolean(FROZEN_KEY);
+        if (frozen) {
+            long expires = data.getLong(FREEZE_EXPIRES_KEY);
+            if (expires > 0 && System.currentTimeMillis() >= expires) {
+                setFrozen(player, false);
+                frozen = false;
+            }
         }
-        return true;
+        return frozen;
     }
 
     public static void enforceFreezePosition(ServerPlayer player) {
-        if (!isFrozen(player)) return;
         CompoundTag data = player.getPersistentData().getCompound(NBT_KEY);
+        boolean hasFreezePosition = data.contains(FREEZE_X_KEY) && data.contains(FREEZE_Y_KEY) && data.contains(FREEZE_Z_KEY);
+        if (isFrozen(player) && hasFreezePosition) {
+            double x = data.getDouble(FREEZE_X_KEY);
+            double y = data.getDouble(FREEZE_Y_KEY);
+            double z = data.getDouble(FREEZE_Z_KEY);
 
-        if (!data.contains(FREEZE_X_KEY)
-                || !data.contains(FREEZE_Y_KEY)
-                || !data.contains(FREEZE_Z_KEY)) {
-            return;
+            // Elimina qualquer movimento aplicado pelo vanilla ou mods.
+            player.setDeltaMovement(0.0, 0.0, 0.0);
+            player.fallDistance = 0.0F;
+
+            // Impede estados de voo de continuarem empurrando o jogador.
+            player.getAbilities().flying = false;
+
+            player.teleportTo(x, y, z);
+
+            // Remove qualquer velocidade residual.
+            player.setDeltaMovement(0.0, 0.0, 0.0);
+            player.hurtMarked = true;
         }
-
-        double x = data.getDouble(FREEZE_X_KEY);
-        double y = data.getDouble(FREEZE_Y_KEY);
-        double z = data.getDouble(FREEZE_Z_KEY);
-
-        // Elimina qualquer movimento aplicado pelo vanilla ou mods.
-        player.setDeltaMovement(0.0, 0.0, 0.0);
-        player.fallDistance = 0.0F;
-
-        // Impede estados de voo de continuarem empurrando o jogador.
-        player.getAbilities().flying = false;
-
-        player.teleportTo(x, y, z);
-
-        // Remove qualquer velocidade residual.
-        player.setDeltaMovement(0.0, 0.0, 0.0);
-        player.hurtMarked = true;
     }
 
     /*** Define se o jogador está mutado.*/
@@ -130,12 +127,14 @@ public class PunishmentManager {
     /*** Verifica se o jogador está mutado.*/
     public static boolean isMuted(ServerPlayer player) {
         CompoundTag data = player.getPersistentData().getCompound(NBT_KEY);
-        if (!data.getBoolean(MUTED_KEY)) return false;
-        long expires = data.getLong(MUTE_EXPIRES_KEY);
-        if (expires > 0 && System.currentTimeMillis() >= expires) {
-            setMuted(player, false);
-            return false;
+        boolean muted = data.getBoolean(MUTED_KEY);
+        if (muted) {
+            long expires = data.getLong(MUTE_EXPIRES_KEY);
+            if (expires > 0 && System.currentTimeMillis() >= expires) {
+                setMuted(player, false);
+                muted = false;
+            }
         }
-        return true;
+        return muted;
     }
 }

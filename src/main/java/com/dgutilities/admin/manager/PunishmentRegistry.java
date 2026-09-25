@@ -67,16 +67,8 @@ public class PunishmentRegistry {
     }
 
     private static void cleanupPlayer(UUID playerUUID) {
-        PunishmentData data =
-                PUNISHMENTS.get(playerUUID);
-
-        if (data == null) {
-            return;
-        }
-
-        if (data.freezeExpiration == null
-                && data.muteExpiration == null) {
-
+        PunishmentData data = PUNISHMENTS.get(playerUUID);
+        if (data != null && data.freezeExpiration == null && data.muteExpiration == null) {
             PUNISHMENTS.remove(playerUUID);
         }
     }
@@ -86,19 +78,12 @@ public class PunishmentRegistry {
 
         PUNISHMENTS.entrySet().removeIf(entry -> {
             PunishmentData data = entry.getValue();
-
-            if (data.freezeExpiration != null
-                    && data.freezeExpiration > 0
-                    && now >= data.freezeExpiration) {
+            if (data.freezeExpiration != null && data.freezeExpiration > 0 && now >= data.freezeExpiration) {
                 data.freezeExpiration = null;
             }
-
-            if (data.muteExpiration != null
-                    && data.muteExpiration > 0
-                    && now >= data.muteExpiration) {
+            if (data.muteExpiration != null && data.muteExpiration > 0 && now >= data.muteExpiration) {
                 data.muteExpiration = null;
             }
-
             return data.freezeExpiration == null && data.muteExpiration == null;
         });
         save();
@@ -117,20 +102,18 @@ public class PunishmentRegistry {
     public static void load() {
         PUNISHMENTS.clear();
         File file = getFile();
-        if (!file.exists()) return;
-
-        try (FileReader reader = new FileReader(file)) {
-            java.lang.reflect.Type type =
-                    new com.google.gson.reflect.TypeToken<
-                            Map<UUID, PunishmentData>>() {}.getType();
-
-            Map<UUID, PunishmentData> loaded = GSON.fromJson(reader, type);
-
-            if (loaded != null) PUNISHMENTS.putAll(loaded);
-            cleanupExpired();
-
-        } catch (Exception e) {
-            System.out.println("Error to load punishments.json: " + e.getMessage());
+        if (file.exists()) {
+            try (FileReader reader = new FileReader(file)) {
+                java.lang.reflect.Type type =
+                        new com.google.gson.reflect.TypeToken<
+                                Map<UUID, PunishmentData>>() {}.getType();
+                Map<UUID, PunishmentData> loaded = GSON.fromJson(reader, type);
+                if (loaded != null) {
+                    PUNISHMENTS.putAll(loaded);
+                }cleanupExpired();
+            } catch (Exception e) {
+                System.out.println("Error to load punishments.json: " + e.getMessage());
+            }
         }
     }
 

@@ -146,9 +146,9 @@ public class ForbidCommand {
                 .then(Commands.argument("player", EntityArgument.player())
                         .executes(context -> {
                             ServerPlayer player = EntityArgument.getPlayer(context, "player");
-                            ForbiddenItemsManager.allowPlayer(player.getUUID());
                             boolean changed = ForbiddenItemsManager.allowPlayer(player.getUUID());
-                            if (!changed) {
+                            int result;
+                            if (changed) {
                                 context.getSource().sendFailure(
                                         ModMessages.get(context.getSource(),
                                                 "command.dg_utilities.itemallow.player.already",
@@ -157,18 +157,20 @@ public class ForbidCommand {
                                                 player.getName()
                                         )
                                 );
-                                return 0;
-                            }
+                                result = 1;
+                            } else {
 
-                            context.getSource().sendSuccess(
-                                    () -> ModMessages.get(context.getSource(),
-                                            "command.dg_utilities.itemallow.player",
-                                            player.getName().getString()
-                                                    + " can now bypass all forbidden item restrictions.",
-                                            player.getName()
-                                    ), false
-                            );
-                            return 1;
+                                context.getSource().sendSuccess(
+                                        () -> ModMessages.get(context.getSource(),
+                                                "command.dg_utilities.itemallow.player",
+                                                player.getName().getString()
+                                                        + " can now bypass all forbidden item restrictions.",
+                                                player.getName()
+                                        ), false
+                                );
+                                result = 0;
+                            }
+                            return result;
                         })
                         .then(Commands.argument("item", ItemArgument.item(buildContext))
                                 .executes(context -> {

@@ -51,20 +51,17 @@ public class IgnoreManager {
     public static void load() {
         IGNORED_PLAYERS.clear();
 
-        if (!FILE.exists()) {
-            return;
-        }
+        if (FILE.exists()) {
+            try (FileReader reader = new FileReader(FILE)) {
+                Type type = new TypeToken<Set<String>>() {}.getType();
+                Set<String> data = GSON.fromJson(reader, type);
 
-        try (FileReader reader = new FileReader(FILE)) {
-            Type type = new TypeToken<Set<String>>() {}.getType();
-            Set<String> data = GSON.fromJson(reader, type);
-
-            if (data != null) {
-                IGNORED_PLAYERS.addAll(data);
+                if (data != null) {
+                    IGNORED_PLAYERS.addAll(data);
+                }
+            } catch (Exception e) {
+                System.out.println("Error to load ignored_players.json: " + e.getMessage());
             }
-
-        } catch (Exception e) {
-            System.out.println("Error to load ignored_players.json: " + e.getMessage());
         }
     }
 }

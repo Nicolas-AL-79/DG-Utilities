@@ -82,8 +82,9 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
-        AFKManager.tickAutoAFK(event.getServer());
+        if (event.phase == TickEvent.Phase.END) {
+            AFKManager.tickAutoAFK(event.getServer());
+        }
     }
 
     @SubscribeEvent
@@ -102,18 +103,19 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onTabListName(PlayerEvent.TabListNameFormat event) {
-        if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        Component name = player.getName();
-        if (AFKManager.isAFK(player.getUUID())) {
-            name = Component.literal("[AFK] ").append(name);
+        if (event.getEntity() instanceof ServerPlayer player) {
+            Component name = player.getName();
+            if (AFKManager.isAFK(player.getUUID())) {
+                name = Component.literal("[AFK] ").append(name);
+            }
+            if (PunishmentManager.isMuted(player)) {
+                name = Component.literal("[MUTED] ").append(name);
+            }
+            if (PunishmentManager.isFrozen(player)) {
+                name = Component.literal("[FROZEN] ").append(name);
+            }
+            event.setDisplayName(name);
         }
-        if (PunishmentManager.isMuted(player)) {
-            name = Component.literal("[MUTED] ").append(name);
-        }
-        if (PunishmentManager.isFrozen(player)) {
-            name = Component.literal("[FROZEN] ").append(name);
-        }
-        event.setDisplayName(name);
     }
 
     private static void returnToOpenContainer(ServerPlayer player, ItemStack stack) {
@@ -363,14 +365,14 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onNetherPortalSpawn(BlockEvent.PortalSpawnEvent event) {
-        if (!DimensionAccessManager.isPortalBlocked(Level.NETHER.location())) return;
-        event.setCanceled(true);
+        if (DimensionAccessManager.isPortalBlocked(Level.NETHER.location())) {
+            event.setCanceled(true);
+        }
     }
 
     private static boolean isPortalBlock(BlockState state) {
         ResourceLocation id = ForgeRegistries.BLOCKS.getKey(state.getBlock());
-        if (id == null) return false;
-        return id.getPath().toLowerCase(Locale.ROOT).contains("portal");
+        return id != null && id.getPath().toLowerCase(Locale.ROOT).contains("portal");
     }
 
     private static boolean isPlayerInsidePortal(ServerPlayer player) {

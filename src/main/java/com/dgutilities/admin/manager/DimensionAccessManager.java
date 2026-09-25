@@ -181,9 +181,7 @@ public class DimensionAccessManager {
     // ----------------------------------------------------
 
     public static boolean canAccess(ServerPlayer player, ResourceLocation dimension) {
-        if (!isDimensionBlocked(dimension)) return true;
-        if (hasBypass(player.getUUID(), dimension)) return true;
-        return hasRequiredKey(player, dimension);
+        return !isDimensionBlocked(dimension) || hasBypass(player.getUUID(), dimension) || hasRequiredKey(player, dimension);
     }
 
     // ----------------------------------------------------

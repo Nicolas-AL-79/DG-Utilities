@@ -19,16 +19,15 @@ public class IgnoredTabManager {
 
         if (minecraft.getConnection() == null) {
             clear();
-            return;
-        }
+        } else {
+            for (PlayerInfo playerInfo : minecraft.getConnection().getOnlinePlayers()) {
+                UUID uuid = playerInfo.getProfile().getId();
 
-        for (PlayerInfo playerInfo : minecraft.getConnection().getOnlinePlayers()) {
-            UUID uuid = playerInfo.getProfile().getId();
-
-            if (IgnoreManager.isIgnored(uuid)) {
-                applyIgnoredTag(playerInfo);
-            } else {
-                removeIgnoredTag(playerInfo);
+                if (IgnoreManager.isIgnored(uuid)) {
+                    applyIgnoredTag(playerInfo);
+                } else {
+                    removeIgnoredTag(playerInfo);
+                }
             }
         }
     }
@@ -56,9 +55,7 @@ public class IgnoredTabManager {
         Component original = ORIGINAL_NAMES.remove(uuid);
         Component lastApplied = LAST_APPLIED_NAMES.remove(uuid);
 
-        if (original == null) return;
-
-        if (Objects.equals(playerInfo.getTabListDisplayName(), lastApplied)) {
+        if (original != null && Objects.equals(playerInfo.getTabListDisplayName(), lastApplied)) {
             playerInfo.setTabListDisplayName(original);
         }
     }

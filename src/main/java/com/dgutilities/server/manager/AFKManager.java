@@ -200,14 +200,14 @@ public class AFKManager {
     }
 
     public static void tickAutoAFK(MinecraftServer server) {
-        if (!Config.AUTO_AFK_ENABLED.get()) return;
-
-        autoAFKTickCounter++;
-        if (autoAFKTickCounter < 1200) return;
-
-        autoAFKTickCounter = 0;
-        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-            checkAutoAFK(player);
+        if (Config.AUTO_AFK_ENABLED.get()) {
+            autoAFKTickCounter++;
+            if (autoAFKTickCounter >= 1200) {
+                autoAFKTickCounter = 0;
+                for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                    checkAutoAFK(player);
+                }
+            }
         }
     }
 }

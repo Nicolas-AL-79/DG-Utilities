@@ -56,10 +56,12 @@ public class ClientEvents {
     private static int ignoredTabTickCounter = 0;
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
-        ignoredTabTickCounter++;
-        if (ignoredTabTickCounter < 20) return;
-        ignoredTabTickCounter = 0;
-        IgnoredTabManager.update();
+        if (event.phase == TickEvent.Phase.END) {
+            ignoredTabTickCounter++;
+            if (ignoredTabTickCounter >= 20) {
+                ignoredTabTickCounter = 0;
+                IgnoredTabManager.update();
+            }
+        }
     }
 }
