@@ -8,11 +8,7 @@ import com.dgutilities.admin.manager.PunishmentRegistry;
 import com.dgutilities.common.network.ModNetwork;
 import com.dgutilities.server.command.AFKCommand;
 import com.dgutilities.server.command.TrashCommand;
-import com.dgutilities.common.util.ModMessages;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import net.minecraft.commands.Commands;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -90,26 +86,9 @@ public class DGUtilities
 
     @SubscribeEvent
     public void registrarComandos(RegisterCommandsEvent event) {
-        if (Config.COMMAND_ANNOUNCEMENT_ENABLED.get()) {
-            // Announcement
-            event.getDispatcher().register(Commands.literal("announcement")
-                    .requires(source -> source.hasPermission(Config.COMMAND_ANNOUNCEMENT_PERMISSION_LEVEL.get()))
-                    .then(Commands.argument("mensagem", StringArgumentType.greedyString())
-                            .executes(context -> {
-                                String mensagem = StringArgumentType.getString(context, "mensagem");
-
-                                for (ServerPlayer player : context.getSource().getServer().getPlayerList().getPlayers()) {
-                                    player.sendSystemMessage(ModMessages.get(
-                                            player,
-                                            "command.dg_utilities.announcement",
-                                            "[Announcement] " + mensagem,
-                                            mensagem
-                                    ));
-                                }
-                                return 1;
-                            })
-                    )
-            );
+        // Announcement
+        if (Config.COMMAND_ANNOUNCEMENT_ENABLED.get() || Config.COMMAND_SCREEN_ANNOUNCEMENT_ENABLED.get()) {
+            AnnouncementCommand.register(event.getDispatcher());
         }
 
         // Forbid / Allow
@@ -150,12 +129,19 @@ public class DGUtilities
             InvseeCommand.register(event.getDispatcher());
         }
 
+        // Freeze and Mute
         if (Config.COMMAND_FREEZE_ENABLED.get() || Config.COMMAND_MUTE_ENABLED.get()) {
             PunishmentCheckCommand.register(event.getDispatcher());
         }
 
+        // Block Dimensions
         if (Config.COMMAND_DIMENSION_ENABLED.get()) {
             DimensionCommand.register(event.getDispatcher(), event.getBuildContext());
+        }
+
+        // Fly
+        if (Config.COMMAND_FLY_ENABLED.get()) {
+            FlyCommand.register(event.getDispatcher());
         }
     }
 }

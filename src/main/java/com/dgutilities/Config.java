@@ -20,6 +20,26 @@ public class Config
             .comment("Permission level required to use /announcement. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.announcement.permission_level", 2, 0, 4);
 
+    public static final ForgeConfigSpec.BooleanValue COMMAND_SCREEN_ANNOUNCEMENT_ENABLED = BUILDER
+            .comment("Enables or disables the /screenannounce command")
+            .define("commands.screenannounce.enabled", true);
+
+    public static final ForgeConfigSpec.IntValue COMMAND_SCREEN_ANNOUNCEMENT_PERMISSION_LEVEL = BUILDER
+            .comment("Permission level required to use /screenannounce. 0 = any player, 1-4 = operator level")
+            .defineInRange("commands.screenannounce.permission_level", 2, 0, 4);
+
+    public static final ForgeConfigSpec.IntValue SCREEN_ANNOUNCEMENT_FADE_IN = BUILDER
+            .comment("Fade-in duration for screen announcements, in ticks")
+            .defineInRange("commands.screenannounce.fade_in", 10, 0, 200);
+
+    public static final ForgeConfigSpec.IntValue SCREEN_ANNOUNCEMENT_STAY = BUILDER
+            .comment("Time screen announcements remain visible, in ticks")
+            .defineInRange("commands.screenannounce.stay", 60, 1, 1200);
+
+    public static final ForgeConfigSpec.IntValue SCREEN_ANNOUNCEMENT_FADE_OUT = BUILDER
+            .comment("Fade-out duration for screen announcements, in ticks")
+            .defineInRange("commands.screenannounce.fade_out", 10, 0, 200);
+
     public static final ForgeConfigSpec.BooleanValue COMMAND_FORBID_ENABLED = BUILDER
             .comment("Enables or disables the /item commands")
             .define("commands.forbid.enabled", true);
@@ -35,6 +55,14 @@ public class Config
     public static final ForgeConfigSpec.IntValue COMMAND_HEAL_PERMISSION_LEVEL = BUILDER
             .comment("Permission level required to use /heal. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.heal.permission_level", 1, 0, 4);
+
+    public static final ForgeConfigSpec.BooleanValue COMMAND_FLY_ENABLED = BUILDER
+            .comment("Enables or disables the /fly command")
+            .define("commands.fly.enabled", true);
+
+    public static final ForgeConfigSpec.IntValue COMMAND_FLY_PERMISSION_LEVEL = BUILDER
+            .comment("Permission level required to use /fly. 0 = any player, 1-4 = operator level")
+            .defineInRange("commands.fly.permission_level", 2, 0, 4);
 
     public static final ForgeConfigSpec.BooleanValue COMMAND_TRASH_ENABLED = BUILDER
             .comment("Enables or disables the /trash command")

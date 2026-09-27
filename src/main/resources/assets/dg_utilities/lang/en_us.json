@@ -1,6 +1,7 @@
 {
   "command.dg_utilities.heal.success": "%s player(s) have been healed.",
   "command.dg_utilities.heal.self": "You have been healed!",
+  "command.dg_utilities.heal.self.only_player": "§cOnly a player can use /heal without specifying a target.",
 
   "command.dg_utilities.trash.title": "Trash",
 
@@ -52,6 +53,7 @@
   "command.dg_utilities.itemallow.item.already": "§e%s already has permission to bypass %s.",
 
   "command.dg_utilities.announcement": "§e[Announcement] §f%s",
+  "command.dg_utilities.screenannounce.success": "§aScreen announcement sent to %s player(s).",
 
   "command.dg_utilities.afk.pending": "§eStarting AFK mode... Stand still for 5 seconds.",
   "command.dg_utilities.afk.active": "§aAFK mode activated! You are invulnerable, immovable and ignored by monsters. Move your camera or press SHIFT to exit.",
@@ -115,5 +117,13 @@
   "command.dg_utilities.dimension.access_denied": "§cYou do not have access to dimension %s.",
 
   "command.dg_utilities.portal.access_denied": "§cAccess to %s through portals is currently disabled.",
-  "command.dg_utilities.portal.end_disabled": "§cThe End portal is currently disabled."
+  "command.dg_utilities.portal.end_disabled": "§cThe End portal is currently disabled.",
+
+  "command.dg_utilities.fly.enabled": "§aFlight enabled.",
+  "command.dg_utilities.fly.disabled": "§cFlight disabled.",
+  "command.dg_utilities.fly.natural": "§eYour current game mode already allows flight.",
+  "command.dg_utilities.fly.self.only_player": "§cOnly a player can use /fly without specifying a target.",
+  "command.dg_utilities.fly.target_natural": "§e%s is already able to fly because of their game mode.",
+  "command.dg_utilities.fly.other.enabled": "§a%s can now fly.",
+  "command.dg_utilities.fly.other.disabled": "§c%s can no longer fly."
 }

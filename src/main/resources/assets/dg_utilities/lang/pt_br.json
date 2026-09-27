@@ -1,6 +1,7 @@
 {
   "command.dg_utilities.heal.success": "%s jogador(es) foram curados.",
   "command.dg_utilities.heal.self": "Você foi curado!",
+  "command.dg_utilities.heal.self.only_player": "§cApenas um jogador pode usar /heal sem especificar um alvo.",
 
   "command.dg_utilities.trash.title": "Lixeira",
 
@@ -52,6 +53,7 @@
   "command.dg_utilities.itemallow.item.already": "§e%s já possui permissão para ignorar o item %s.",
 
   "command.dg_utilities.announcement": "§e[Anúncio] §f%s",
+  "command.dg_utilities.screenannounce.success": "§aAnúncio na tela enviado para %s jogador(es).",
 
   "command.dg_utilities.afk.pending": "§eIniciando modo AFK... Fique parado por 5 segundos.",
   "command.dg_utilities.afk.active": "§aModo AFK ativado! Você está invulnerável, inamovível e ignorado por monstros. Mexa a câmera ou aperte SHIFT para sair.",
@@ -115,5 +117,13 @@
   "command.dg_utilities.dimension.access_denied": "§cVocê não possui acesso à dimensão %s.",
 
   "command.dg_utilities.portal.access_denied": "§cO acesso à dimensão %s através de portais está desativado no momento.",
-  "command.dg_utilities.portal.end_disabled": "§cO Portal do End está desativado no momento."
+  "command.dg_utilities.portal.end_disabled": "§cO Portal do End está desativado no momento.",
+
+  "command.dg_utilities.fly.enabled": "§aVoo ativado.",
+  "command.dg_utilities.fly.disabled": "§cVoo desativado.",
+  "command.dg_utilities.fly.natural": "§eSeu modo de jogo atual já permite voar.",
+  "command.dg_utilities.fly.self.only_player": "§cApenas um jogador pode usar /fly sem especificar um alvo.",
+  "command.dg_utilities.fly.target_natural": "§e%s já pode voar por causa do seu modo de jogo.",
+  "command.dg_utilities.fly.other.enabled": "§a%s agora pode voar.",
+  "command.dg_utilities.fly.other.disabled": "§c%s não pode mais voar."
 }
