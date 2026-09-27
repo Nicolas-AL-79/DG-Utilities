@@ -125,5 +125,11 @@
   "command.dg_utilities.fly.self.only_player": "§cOnly a player can use /fly without specifying a target.",
   "command.dg_utilities.fly.target_natural": "§e%s is already able to fly because of their game mode.",
   "command.dg_utilities.fly.other.enabled": "§a%s can now fly.",
-  "command.dg_utilities.fly.other.disabled": "§c%s can no longer fly."
+  "command.dg_utilities.fly.other.disabled": "§c%s can no longer fly.",
+
+  "command.dg_utilities.god.enabled": "§aGod mode enabled.",
+  "command.dg_utilities.god.disabled": "§cGod mode disabled.",
+  "command.dg_utilities.god.other.enabled": "§a%s is now in god mode.",
+  "command.dg_utilities.god.other.disabled": "§c%s is no longer in god mode.",
+  "command.dg_utilities.god.self.only_player": "§cOnly a player can use /god without specifying a target."
 }

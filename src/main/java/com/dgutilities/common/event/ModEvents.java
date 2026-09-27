@@ -1,6 +1,7 @@
 package com.dgutilities.common.event;
 
 import com.dgutilities.admin.manager.DimensionAccessManager;
+import com.dgutilities.admin.manager.GodManager;
 import com.dgutilities.server.manager.AFKManager;
 import com.dgutilities.admin.manager.ForbiddenItemsManager;
 import com.dgutilities.admin.manager.PunishmentManager;
@@ -26,14 +27,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
-import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -294,12 +294,11 @@ public class ModEvents {
 
     // AFK - Cancelar Dano
     @SubscribeEvent
-    public static void onLivingDamage(LivingDamageEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            if (AFKManager.isAFK(player.getUUID())) {
+    public static void onLivingAttack(LivingAttackEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player
+            && (AFKManager.isAFK(player.getUUID()) || GodManager.isGod(player))) {
                 event.setCanceled(true); // Cancela qualquer dano se estiver AFK
             }
-        }
     }
 
     // AFK - Cancelar Knockback (repulsão) de ataques e explosões
@@ -395,5 +394,14 @@ public class ModEvents {
             }
         }
         return false;
+    }
+
+    @SubscribeEvent
+    public static void onMobEffectApplicable(MobEffectEvent.Applicable event) {
+        if (event.getEntity() instanceof ServerPlayer player
+                && GodManager.isGod(player)
+                && !event.getEffectInstance().getEffect().isBeneficial()) {
+            event.setResult(Event.Result.DENY);
+        }
     }
 }

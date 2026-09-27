@@ -143,5 +143,10 @@ public class DGUtilities
         if (Config.COMMAND_FLY_ENABLED.get()) {
             FlyCommand.register(event.getDispatcher());
         }
+
+        // God
+        if (Config.COMMAND_GOD_ENABLED.get()) {
+            GodCommand.register(event.getDispatcher());
+        }
     }
 }

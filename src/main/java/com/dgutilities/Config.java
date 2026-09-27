@@ -64,6 +64,14 @@ public class Config
             .comment("Permission level required to use /fly. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.fly.permission_level", 2, 0, 4);
 
+    public static final ForgeConfigSpec.BooleanValue COMMAND_GOD_ENABLED = BUILDER
+            .comment("Enables or disables the /god command")
+            .define("commands.god.enabled", true);
+
+    public static final ForgeConfigSpec.IntValue COMMAND_GOD_PERMISSION_LEVEL = BUILDER
+            .comment("Permission level required to use /god. 0 = any player, 1-4 = operator level")
+            .defineInRange("commands.god.permission_level", 2, 0, 4);
+
     public static final ForgeConfigSpec.BooleanValue COMMAND_TRASH_ENABLED = BUILDER
             .comment("Enables or disables the /trash command")
             .define("commands.trash.enabled", true);

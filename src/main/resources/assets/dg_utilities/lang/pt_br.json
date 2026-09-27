@@ -125,5 +125,11 @@
   "command.dg_utilities.fly.self.only_player": "§cApenas um jogador pode usar /fly sem especificar um alvo.",
   "command.dg_utilities.fly.target_natural": "§e%s já pode voar por causa do seu modo de jogo.",
   "command.dg_utilities.fly.other.enabled": "§a%s agora pode voar.",
-  "command.dg_utilities.fly.other.disabled": "§c%s não pode mais voar."
+  "command.dg_utilities.fly.other.disabled": "§c%s não pode mais voar.",
+
+  "command.dg_utilities.god.enabled": "§aModo deus ativado.",
+  "command.dg_utilities.god.disabled": "§cModo deus desativado.",
+  "command.dg_utilities.god.other.enabled": "§a%s agora está em modo deus.",
+  "command.dg_utilities.god.other.disabled": "§c%s não está mais em modo deus.",
+  "command.dg_utilities.god.self.only_player": "§cApenas um jogador pode usar /god sem especificar um alvo."
 }
