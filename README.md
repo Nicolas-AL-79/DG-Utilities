@@ -9,7 +9,7 @@ The project is currently under active development, and more features are planned
 - **Minecraft:** 1.20.1
 - **Forge:** 47.4.10
 - **Java:** 17
-- **Current mod version:** 0.7.0
+- **Current mod version:** 0.8.0
 
 ## Features
 
@@ -17,6 +17,9 @@ DG Utilities currently includes:
 
 - General server utility commands
 - Administration and moderation tools
+- Chat and on-screen server announcements
+- Administrative flight and god mode
+- Offline player last-position lookup
 - Timed and permanent punishments
 - Automatic and manual AFK systems
 - Player status indicators in the tab list
@@ -81,6 +84,10 @@ Items left inside the trash inventory are discarded when the inventory is closed
 
 ---
 
+## Administration Commands
+
+### Announcements
+
 #### `/announcement <message>`
 
 Sends an announcement to all players currently connected to the server.
@@ -93,9 +100,28 @@ Sends an announcement to all players currently connected to the server.
 
 ---
 
-## Administration Commands
+#### `/screenannounce <targets> <message>`
+
+Displays a highlighted announcement in the center of the selected players' screens.
+
+```text
+/screenannounce Player Server restart in 5 minutes.
+/screenannounce @a Event starting now!
+```
+
+Screen announcements use configurable fade-in, display, and fade-out durations.
+
+**Default permission level:** `2`
+
+---
 
 ### Heal
+
+#### `/heal`
+
+Fully restores your own health, hunger, and saturation and removes active effects.
+
+The command without a target can only be used by a player.
 
 #### `/heal <targets>`
 
@@ -107,6 +133,70 @@ Fully restores the health, hunger, and saturation of one or more players.
 ```
 
 **Default permission level:** `1`
+
+---
+
+### Fly
+
+#### `/fly`
+
+Toggles flight for the player executing the command.
+
+#### `/fly <player>`
+
+Toggles flight for another player.
+
+Creative and Spectator players already have flight through their game mode, so DG Utilities does not override their natural flight state.
+
+When flight is disabled by the command, active flying is also stopped.
+
+**Default permission level:** `2`
+
+---
+
+### God Mode
+
+#### `/god`
+
+Toggles god mode for the player executing the command.
+
+#### `/god <player>`
+
+Toggles god mode for another player.
+
+While god mode is active:
+
+- Incoming attacks and damage are blocked.
+
+- Harmful status effects cannot be applied.
+
+- Harmful effects already active when god mode is enabled are removed.
+
+- Beneficial effects continue to work normally.
+
+- The god mode state is stored persistently on the player.
+
+**Default permission level:** `2`
+
+---
+
+### Last Position
+
+#### `/lastpos <player>`
+
+Displays the last position saved for a player, including their dimension and exact coordinates.
+
+The command reads the player's saved Minecraft player data, allowing administrators to inspect the last saved position of offline players as well.
+
+Example output:
+
+```text
+Player's last position:
+Dimension: minecraft:overworld
+X: 123.45, Y: 64.00, Z: -987.65
+```
+
+**Default permission level:** `2`
 
 ---
 
@@ -673,16 +763,20 @@ Permission levels follow Minecraft's standard operator permission system:
 
 Default permission levels:
 
-| Feature | Permission Level |
-| --- | ---: |
-| `/afk` | 0 |
-| `/trash` | 0 |
-| `/heal` | 1 |
-| `/announcement` | 2 |
-| `/freeze` | 2 |
-| `/mute` | 2 |
-| `/invsee` | 2 |
-| Item restriction commands | 3 |
+| Feature                             | Permission Level |
+|-------------------------------------| ---: |
+| `/afk`                              | 0 |
+| `/trash`                            | 0 |
+| `/heal`                             | 1 |
+| `/announcement`                     | 2 |
+| `/screenannounce`                   | 2 |
+| `/fly`                              | 2 |
+| `/god`                              | 2 |
+| `/lastpos`                          | 2 |
+| `/freeze`                           | 2 |
+| `/mute`                             | 2 |
+| `/invsee`                           | 2 |
+| Item restriction commands           | 3 |
 | Dimension and portal administration | 3 |
 
 Automatic AFK behavior can also be enabled or disabled and its inactivity timeout can be configured.
@@ -721,6 +815,10 @@ This includes data such as:
 - Portal-blocked dimensions
 - Player dimension bypasses
 - Dimension access keys
+
+Some player-specific states, such as god mode, are stored in the player's persistent NBT data.
+
+```/lastpos``` reads Minecraft's existing saved player data rather than creating a separate position database.
 
 Client-only information, such as ignored players, is stored locally in the client's configuration folder.
 
