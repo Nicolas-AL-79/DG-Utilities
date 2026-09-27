@@ -132,5 +132,13 @@ public class Config
             .comment("Permission level required to manage dimension access. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.dimension.permission_level", 3, 0, 4);
 
+    public static final ForgeConfigSpec.BooleanValue COMMAND_LASTPOS_ENABLED = BUILDER
+            .comment("Enables or disables the /lastpos command")
+            .define("commands.lastpos.enabled", true);
+
+    public static final ForgeConfigSpec.IntValue COMMAND_LASTPOS_PERMISSION_LEVEL = BUILDER
+            .comment("Permission level required to use /lastpos. 0 = any player, 1-4 = operator level")
+            .defineInRange("commands.lastpos.permission_level", 2, 0, 4);
+
     static final ForgeConfigSpec SPEC = BUILDER.build();
 }

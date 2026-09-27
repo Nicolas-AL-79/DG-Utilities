@@ -131,5 +131,9 @@
   "command.dg_utilities.god.disabled": "§cGod mode disabled.",
   "command.dg_utilities.god.other.enabled": "§a%s is now in god mode.",
   "command.dg_utilities.god.other.disabled": "§c%s is no longer in god mode.",
-  "command.dg_utilities.god.self.only_player": "§cOnly a player can use /god without specifying a target."
+  "command.dg_utilities.god.self.only_player": "§cOnly a player can use /god without specifying a target.",
+
+  "command.dg_utilities.lastpos.success": "§e%s's last position:\n§eDimension: §f%s\n§eX: §f%s§7, §eY: §f%s§7, §eZ: §f%s",
+  "command.dg_utilities.lastpos.no_data": "§cNo saved player data was found for %s.",
+  "command.dg_utilities.lastpos.read_error": "§cFailed to read player data for %s."
 }

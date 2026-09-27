@@ -148,5 +148,10 @@ public class DGUtilities
         if (Config.COMMAND_GOD_ENABLED.get()) {
             GodCommand.register(event.getDispatcher());
         }
+
+        // LastPos
+        if (Config.COMMAND_LASTPOS_ENABLED.get()) {
+            LastPosCommand.register(event.getDispatcher());
+        }
     }
 }

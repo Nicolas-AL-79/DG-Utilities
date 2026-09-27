@@ -131,5 +131,9 @@
   "command.dg_utilities.god.disabled": "§cModo dios desactivado.",
   "command.dg_utilities.god.other.enabled": "§a%s ahora está en modo dios.",
   "command.dg_utilities.god.other.disabled": "§c%s ya no está en modo dios.",
-  "command.dg_utilities.god.self.only_player": "§cSolo un jugador puede usar /god sin especificar un objetivo."
+  "command.dg_utilities.god.self.only_player": "§cSolo un jugador puede usar /god sin especificar un objetivo.",
+
+  "command.dg_utilities.lastpos.success": "§eÚltima posición de %s:\n§eDimensión: §f%s\n§eX: §f%s§7, §eY: §f%s§7, §eZ: §f%s",
+  "command.dg_utilities.lastpos.no_data": "§cNo se encontraron datos guardados para %s.",
+  "command.dg_utilities.lastpos.read_error": "§cNo se pudieron leer los datos del jugador %s."
 }
