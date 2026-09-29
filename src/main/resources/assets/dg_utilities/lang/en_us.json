@@ -135,5 +135,11 @@
 
   "command.dg_utilities.lastpos.success": "§e%s's last position:\n§eDimension: §f%s\n§eX: §f%s§7, §eY: §f%s§7, §eZ: §f%s",
   "command.dg_utilities.lastpos.no_data": "§cNo saved player data was found for %s.",
-  "command.dg_utilities.lastpos.read_error": "§cFailed to read player data for %s."
+  "command.dg_utilities.lastpos.read_error": "§cFailed to read player data for %s.",
+
+  "container.dg_utilities.endersee": "%s's Ender Chest",
+  "command.dg_utilities.endersee.only_player": "§cThis command can only be used by a player.",
+  "command.dg_utilities.endersee.single_player": "§cYou must specify exactly one player.",
+  "command.dg_utilities.endersee.no_data": "§cNo saved player data was found for %s.",
+  "command.dg_utilities.endersee.read_error": "§cFailed to read player data for %s."
 }

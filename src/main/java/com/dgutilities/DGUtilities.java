@@ -1,6 +1,7 @@
 package com.dgutilities;
 
 import com.dgutilities.admin.command.*;
+import com.dgutilities.admin.endersee.EnderseeCommand;
 import com.dgutilities.admin.invsee.InvseeCommand;
 import com.dgutilities.admin.manager.DimensionAccessManager;
 import com.dgutilities.admin.manager.ForbiddenItemsManager;
@@ -8,11 +9,17 @@ import com.dgutilities.admin.manager.PunishmentRegistry;
 import com.dgutilities.common.network.ModNetwork;
 import com.dgutilities.server.command.AFKCommand;
 import com.dgutilities.server.command.TrashCommand;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.tree.CommandNode;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.common.Mod;
@@ -84,74 +91,91 @@ public class DGUtilities
         return worldDataFolder;
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void registrarComandos(RegisterCommandsEvent event) {
+        CommandDispatcher<CommandSourceStack> dgDispatcher = new CommandDispatcher<>();
+        registerDGCommands(dgDispatcher, event.getBuildContext());
+        registerCommandAliases(event.getDispatcher(), dgDispatcher);
+    }
+
+    private static void registerDGCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
         // Announcement
         if (Config.COMMAND_ANNOUNCEMENT_ENABLED.get() || Config.COMMAND_SCREEN_ANNOUNCEMENT_ENABLED.get()) {
-            AnnouncementCommand.register(event.getDispatcher());
+            AnnouncementCommand.register(dispatcher);
         }
 
         // Forbid / Allow
         if (Config.COMMAND_FORBID_ENABLED.get()) {
-            ForbidCommand.register(
-                    event.getDispatcher(),
-                    event.getBuildContext()
-            );
+            ForbidCommand.register(dispatcher, buildContext);
         }
 
         // Heal
         if (Config.COMMAND_HEAL_ENABLED.get()) {
-            HealCommand.register(event.getDispatcher());
+            HealCommand.register(dispatcher);
         }
 
         // Trash
         if (Config.COMMAND_TRASH_ENABLED.get()) {
-            TrashCommand.register(event.getDispatcher());
+            TrashCommand.register(dispatcher);
         }
 
         // Freeze
         if (Config.COMMAND_FREEZE_ENABLED.get()) {
-            FreezeCommand.register(event.getDispatcher());
+            FreezeCommand.register(dispatcher);
         }
 
         // Mute
         if (Config.COMMAND_MUTE_ENABLED.get()) {
-            MuteCommand.register(event.getDispatcher());
+            MuteCommand.register(dispatcher);
         }
 
         // AFK
         if (Config.COMMAND_AFK_ENABLED.get()) {
-            AFKCommand.register(event.getDispatcher());
+            AFKCommand.register(dispatcher);
         }
 
         // Invsee
         if (Config.COMMAND_INVSEE_ENABLED.get()) {
-            InvseeCommand.register(event.getDispatcher());
+            InvseeCommand.register(dispatcher);
         }
 
         // Freeze and Mute
         if (Config.COMMAND_FREEZE_ENABLED.get() || Config.COMMAND_MUTE_ENABLED.get()) {
-            PunishmentCheckCommand.register(event.getDispatcher());
+            PunishmentCheckCommand.register(dispatcher);
         }
 
         // Block Dimensions
         if (Config.COMMAND_DIMENSION_ENABLED.get()) {
-            DimensionCommand.register(event.getDispatcher(), event.getBuildContext());
+            DimensionCommand.register(dispatcher, buildContext);
         }
 
         // Fly
         if (Config.COMMAND_FLY_ENABLED.get()) {
-            FlyCommand.register(event.getDispatcher());
+            FlyCommand.register(dispatcher);
         }
 
         // God
         if (Config.COMMAND_GOD_ENABLED.get()) {
-            GodCommand.register(event.getDispatcher());
+            GodCommand.register(dispatcher);
         }
 
         // LastPos
         if (Config.COMMAND_LASTPOS_ENABLED.get()) {
-            LastPosCommand.register(event.getDispatcher());
+            LastPosCommand.register(dispatcher);
+        }
+
+        // Endersee
+        if (Config.COMMAND_ENDERSEE_ENABLED.get()) {
+            EnderseeCommand.register(dispatcher);
+        }
+    }
+
+    private static void registerCommandAliases(CommandDispatcher<CommandSourceStack> serverDispatcher, CommandDispatcher<CommandSourceStack> dgDispatcher) {
+        serverDispatcher.register(Commands.literal("dg"));
+        CommandNode<CommandSourceStack> dgRoot = serverDispatcher.getRoot().getChild("dg");
+        for (CommandNode<CommandSourceStack> command : dgDispatcher.getRoot().getChildren()) {
+            serverDispatcher.getRoot().addChild(command);
+            dgRoot.addChild(command);
         }
     }
 }

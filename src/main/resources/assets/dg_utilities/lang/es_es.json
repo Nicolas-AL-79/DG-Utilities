@@ -135,5 +135,11 @@
 
   "command.dg_utilities.lastpos.success": "§eÚltima posición de %s:\n§eDimensión: §f%s\n§eX: §f%s§7, §eY: §f%s§7, §eZ: §f%s",
   "command.dg_utilities.lastpos.no_data": "§cNo se encontraron datos guardados para %s.",
-  "command.dg_utilities.lastpos.read_error": "§cNo se pudieron leer los datos del jugador %s."
+  "command.dg_utilities.lastpos.read_error": "§cNo se pudieron leer los datos del jugador %s.",
+
+  "container.dg_utilities.endersee": "Cofre de Ender de %s",
+  "command.dg_utilities.endersee.only_player": "§cEste comando solo puede ser usado por un jugador.",
+  "command.dg_utilities.endersee.single_player": "§cDebes especificar exactamente un jugador.",
+  "command.dg_utilities.endersee.no_data": "§cNo se encontraron datos guardados para %s.",
+  "command.dg_utilities.endersee.read_error": "§cNo se pudieron leer los datos del jugador %s."
 }

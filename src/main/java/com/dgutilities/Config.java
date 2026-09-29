@@ -124,6 +124,14 @@ public class Config
             .comment("Permission level required to use /invsee. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.invsee.permission_level", 2, 0, 4);
 
+    public static final ForgeConfigSpec.BooleanValue COMMAND_ENDERSEE_ENABLED = BUILDER
+            .comment("Enables or disables the /endersee command")
+            .define("commands.endersee.enabled", true);
+
+    public static final ForgeConfigSpec.IntValue COMMAND_ENDERSEE_PERMISSION_LEVEL = BUILDER
+            .comment("Permission level required to use /endersee. 0 = any player, 1-4 = operator level")
+            .defineInRange("commands.endersee.permission_level", 2, 0, 4);
+
     public static final ForgeConfigSpec.BooleanValue COMMAND_DIMENSION_ENABLED = BUILDER
             .comment("Enables or disables dimension access management commands")
             .define("commands.dimension.enabled", true);
