@@ -138,8 +138,5 @@
   "command.dg_utilities.lastpos.read_error": "§cNão foi possível ler os dados do jogador %s.",
 
   "container.dg_utilities.endersee": "Baú do Ender de %s",
-  "command.dg_utilities.endersee.only_player": "§cEste comando só pode ser usado por um jogador.",
-  "command.dg_utilities.endersee.single_player": "§cVocê deve especificar exatamente um jogador.",
-  "command.dg_utilities.endersee.no_data": "§cNenhum dado salvo foi encontrado para %s.",
-  "command.dg_utilities.endersee.read_error": "§cNão foi possível ler os dados do jogador %s."
+  "command.dg_utilities.endersee.only_player": "§cEste comando só pode ser usado por um jogador."
 }
