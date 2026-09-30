@@ -48,6 +48,26 @@ public class Config
             .comment("Permission level required to use /enderchest. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.enderchest.permission_level", 1, 0, 4);
 
+    public static final ForgeConfigSpec.BooleanValue COMMAND_CLEARDROPS_ENABLED = BUILDER
+            .comment("Enables or disables the /cleardrops command")
+            .define("commands.cleardrops.enabled", true);
+
+    public static final ForgeConfigSpec.IntValue COMMAND_CLEARDROPS_PERMISSION_LEVEL = BUILDER
+            .comment("Permission level required to use /cleardrops. 0 = any player, 1-4 = operator level")
+            .defineInRange("commands.cleardrops.permission_level", 2, 0, 4);
+
+    public static final ForgeConfigSpec.BooleanValue AUTO_CLEARDROPS_ENABLED = BUILDER
+            .comment("Automatically clears dropped item entities when the configured threshold is reached")
+            .define("commands.cleardrops.auto_enabled", true);
+
+    public static final ForgeConfigSpec.IntValue AUTO_CLEARDROPS_THRESHOLD = BUILDER
+            .comment("Number of loaded dropped item entities required to start an automatic cleanup")
+            .defineInRange("commands.cleardrops.auto_threshold", 2000, 1, 1000000);
+
+    public static final ForgeConfigSpec.IntValue AUTO_CLEARDROPS_COUNTDOWN_SECONDS = BUILDER
+            .comment("Seconds between reaching the automatic cleanup threshold and clearing dropped items")
+            .defineInRange("commands.cleardrops.countdown_seconds", 30, 1, 300);
+
     public static final ForgeConfigSpec.BooleanValue COMMAND_ANNOUNCEMENT_ENABLED = BUILDER
             .comment("Enables or disables the /announcement command")
             .define("commands.announcement.enabled", true);

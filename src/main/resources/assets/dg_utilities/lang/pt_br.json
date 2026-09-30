@@ -141,5 +141,11 @@
   "command.dg_utilities.endersee.only_player": "§cEste comando só pode ser usado por um jogador.",
 
   "container.dg_utilities.enderchest": "Baú do Ender",
-  "command.dg_utilities.enderchest.only_player": "§cApenas um jogador pode usar /enderchest."
+  "command.dg_utilities.enderchest.only_player": "§cApenas um jogador pode usar /enderchest.",
+
+  "command.dg_utilities.cleardrops.success": "§aForam removidas §e%s§a entidades de itens dropados.",
+  "command.dg_utilities.cleardrops.empty": "§eNenhuma entidade de item dropado foi encontrada.",
+  "command.dg_utilities.cleardrops.auto_start": "§eForam detectadas §c%s§e entidades de itens dropados. A limpeza ocorrerá em §c%s§e segundos.",
+  "command.dg_utilities.cleardrops.auto_warning": "§eOs itens dropados serão removidos em §c%s§e segundos.",
+  "command.dg_utilities.cleardrops.auto_success": "§aA limpeza automática removeu §e%s§a entidades de itens dropados."
 }

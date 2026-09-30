@@ -1,10 +1,7 @@
 package com.dgutilities.common.event;
 
-import com.dgutilities.admin.manager.DimensionAccessManager;
-import com.dgutilities.admin.manager.GodManager;
+import com.dgutilities.admin.manager.*;
 import com.dgutilities.server.manager.AFKManager;
-import com.dgutilities.admin.manager.ForbiddenItemsManager;
-import com.dgutilities.admin.manager.PunishmentManager;
 import com.dgutilities.common.util.ModMessages;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
@@ -26,6 +24,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -84,6 +84,7 @@ public class ModEvents {
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             AFKManager.tickAutoAFK(event.getServer());
+            ClearDropsManager.tick(event.getServer());
         }
     }
 
@@ -98,6 +99,22 @@ public class ModEvents {
     public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             AFKManager.removePlayer(player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
+        if (!event.getLevel().isClientSide()
+                && event.getEntity() instanceof ItemEntity item) {
+            ClearDropsManager.trackItem(item);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityLeaveLevel(EntityLeaveLevelEvent event) {
+        if (!event.getLevel().isClientSide()
+                && event.getEntity() instanceof ItemEntity item) {
+            ClearDropsManager.untrackItem(item);
         }
     }
 

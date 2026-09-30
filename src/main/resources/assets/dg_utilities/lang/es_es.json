@@ -141,5 +141,11 @@
   "command.dg_utilities.endersee.only_player": "§cEste comando solo puede ser usado por un jugador.",
 
   "container.dg_utilities.enderchest": "Cofre de Ender",
-  "command.dg_utilities.enderchest.only_player": "§cSolo un jugador puede usar /enderchest."
+  "command.dg_utilities.enderchest.only_player": "§cSolo un jugador puede usar /enderchest.",
+
+  "command.dg_utilities.cleardrops.success": "§aSe eliminaron §e%s§a entidades de objetos en el suelo.",
+  "command.dg_utilities.cleardrops.empty": "§eNo se encontraron entidades de objetos en el suelo.",
+  "command.dg_utilities.cleardrops.auto_start": "§eSe detectaron §c%s§e entidades de objetos en el suelo. La limpieza se realizará en §c%s§e segundos.",
+  "command.dg_utilities.cleardrops.auto_warning": "§eLos objetos en el suelo se eliminarán en §c%s§e segundos.",
+  "command.dg_utilities.cleardrops.auto_success": "§aLa limpieza automática eliminó §e%s§a entidades de objetos en el suelo."
 }

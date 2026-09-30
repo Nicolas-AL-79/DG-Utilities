@@ -1,15 +1,13 @@
 package com.dgutilities;
 
 import com.dgutilities.admin.command.*;
-import com.dgutilities.admin.command.EnderseeCommand;
 import com.dgutilities.admin.invsee.InvseeCommand;
+import com.dgutilities.admin.manager.ClearDropsManager;
 import com.dgutilities.admin.manager.DimensionAccessManager;
 import com.dgutilities.admin.manager.ForbiddenItemsManager;
 import com.dgutilities.admin.manager.PunishmentRegistry;
 import com.dgutilities.common.network.ModNetwork;
-import com.dgutilities.server.command.AFKCommand;
-import com.dgutilities.server.command.EnderchestCommand;
-import com.dgutilities.server.command.TrashCommand;
+import com.dgutilities.server.command.*;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.CommandNode;
 import net.minecraft.commands.CommandBuildContext;
@@ -20,6 +18,7 @@ import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
@@ -65,22 +64,24 @@ public class DGUtilities
     {
         MinecraftServer server = event.getServer();
 
-        worldDataFolder = server
-                .getWorldPath(LevelResource.ROOT)
-                .resolve(MODID);
+        ClearDropsManager.reset();
+
+        worldDataFolder = server.getWorldPath(LevelResource.ROOT).resolve(MODID);
 
         try {
             Files.createDirectories(worldDataFolder);
         } catch (IOException e) {
-            throw new RuntimeException(
-                    "Error to create mod date folder",
-                    e
-            );
+            throw new RuntimeException("Error to create mod date folder", e);
         }
         // Carrega e salva os arquivos JSON quando o mundo/servidor ligar
         ForbiddenItemsManager.load();
         PunishmentRegistry.load();
         DimensionAccessManager.load();
+    }
+
+    @SubscribeEvent
+    public void onServerStopped(ServerStoppedEvent event) {
+        ClearDropsManager.reset();
     }
 
     public static Path getWorldDataFolder() {
@@ -173,6 +174,11 @@ public class DGUtilities
         // Enderchest
         if (Config.COMMAND_ENDERCHEST_ENABLED.get()) {
             EnderchestCommand.register(dispatcher);
+        }
+
+        // Clear Drop
+        if (Config.COMMAND_CLEARDROPS_ENABLED.get()) {
+            ClearDropsCommand.register(dispatcher);
         }
     }
 

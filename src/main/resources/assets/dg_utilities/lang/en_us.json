@@ -141,5 +141,11 @@
   "command.dg_utilities.endersee.only_player": "§cThis command can only be used by a player.",
 
   "container.dg_utilities.enderchest": "Ender Chest",
-  "command.dg_utilities.enderchest.only_player": "§cOnly a player can use /enderchest."
+  "command.dg_utilities.enderchest.only_player": "§cOnly a player can use /enderchest.",
+
+  "command.dg_utilities.cleardrops.success": "§aCleared §e%s§a dropped item entities.",
+  "command.dg_utilities.cleardrops.empty": "§eNo dropped item entities were found.",
+  "command.dg_utilities.cleardrops.auto_start": "§eDetected §c%s§e dropped item entities. Cleanup will run in §c%s§e seconds.",
+  "command.dg_utilities.cleardrops.auto_warning": "§eDropped items will be cleared in §c%s§e seconds.",
+  "command.dg_utilities.cleardrops.auto_success": "§aAutomatic cleanup removed §e%s§a dropped item entities."
 }
