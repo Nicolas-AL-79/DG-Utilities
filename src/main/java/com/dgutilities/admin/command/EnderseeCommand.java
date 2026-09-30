@@ -1,4 +1,4 @@
-package com.dgutilities.admin.endersee;
+package com.dgutilities.admin.command;
 
 import com.dgutilities.Config;
 import com.dgutilities.common.util.ModMessages;

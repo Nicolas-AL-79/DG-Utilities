@@ -138,5 +138,8 @@
   "command.dg_utilities.lastpos.read_error": "§cNão foi possível ler os dados do jogador %s.",
 
   "container.dg_utilities.endersee": "Baú do Ender de %s",
-  "command.dg_utilities.endersee.only_player": "§cEste comando só pode ser usado por um jogador."
+  "command.dg_utilities.endersee.only_player": "§cEste comando só pode ser usado por um jogador.",
+
+  "container.dg_utilities.enderchest": "Baú do Ender",
+  "command.dg_utilities.enderchest.only_player": "§cApenas um jogador pode usar /enderchest."
 }

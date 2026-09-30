@@ -1,13 +1,14 @@
 package com.dgutilities;
 
 import com.dgutilities.admin.command.*;
-import com.dgutilities.admin.endersee.EnderseeCommand;
+import com.dgutilities.admin.command.EnderseeCommand;
 import com.dgutilities.admin.invsee.InvseeCommand;
 import com.dgutilities.admin.manager.DimensionAccessManager;
 import com.dgutilities.admin.manager.ForbiddenItemsManager;
 import com.dgutilities.admin.manager.PunishmentRegistry;
 import com.dgutilities.common.network.ModNetwork;
 import com.dgutilities.server.command.AFKCommand;
+import com.dgutilities.server.command.EnderchestCommand;
 import com.dgutilities.server.command.TrashCommand;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.CommandNode;
@@ -167,6 +168,11 @@ public class DGUtilities
         // Endersee
         if (Config.COMMAND_ENDERSEE_ENABLED.get()) {
             EnderseeCommand.register(dispatcher);
+        }
+
+        // Enderchest
+        if (Config.COMMAND_ENDERCHEST_ENABLED.get()) {
+            EnderchestCommand.register(dispatcher);
         }
     }
 

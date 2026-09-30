@@ -12,6 +12,42 @@ public class Config
     // COMMANDS
     // ----------------------------------------------------
 
+    public static final ForgeConfigSpec.BooleanValue COMMAND_IGNORE_ENABLED = BUILDER
+            .comment("Enables or disables the /ignore command")
+            .define("commands.ignore.enabled", true);
+
+    public static final ForgeConfigSpec.BooleanValue COMMAND_AFK_ENABLED = BUILDER
+            .comment("Enables or disables the /afk command")
+            .define("commands.afk.enabled", true);
+
+    public static final ForgeConfigSpec.IntValue COMMAND_AFK_PERMISSION_LEVEL = BUILDER
+            .comment("Permission level required to use /afk. 0 = any player, 1-4 = operator level")
+            .defineInRange("commands.afk.permission_level", 0, 0, 4);
+
+    public static final ForgeConfigSpec.BooleanValue AUTO_AFK_ENABLED = BUILDER
+            .comment("Enables or disables automatic AFK detection")
+            .define("commands.afk.auto_enabled", true);
+
+    public static final ForgeConfigSpec.IntValue AUTO_AFK_TIME_MINUTES = BUILDER
+            .comment("Minutes without movement or camera rotation before automatically entering AFK mode")
+            .defineInRange("commands.afk.auto_time_minutes", 5, 1, 1440);
+
+    public static final ForgeConfigSpec.BooleanValue COMMAND_TRASH_ENABLED = BUILDER
+            .comment("Enables or disables the /trash command")
+            .define("commands.trash.enabled", true);
+
+    public static final ForgeConfigSpec.IntValue COMMAND_TRASH_PERMISSION_LEVEL = BUILDER
+            .comment("Permission level required to use /trash. 0 = any player, 1-4 = operator level")
+            .defineInRange("commands.trash.permission_level", 0, 0, 4);
+
+    public static final ForgeConfigSpec.BooleanValue COMMAND_ENDERCHEST_ENABLED = BUILDER
+            .comment("Enables or disables the /enderchest command")
+            .define("commands.enderchest.enabled", true);
+
+    public static final ForgeConfigSpec.IntValue COMMAND_ENDERCHEST_PERMISSION_LEVEL = BUILDER
+            .comment("Permission level required to use /enderchest. 0 = any player, 1-4 = operator level")
+            .defineInRange("commands.enderchest.permission_level", 1, 0, 4);
+
     public static final ForgeConfigSpec.BooleanValue COMMAND_ANNOUNCEMENT_ENABLED = BUILDER
             .comment("Enables or disables the /announcement command")
             .define("commands.announcement.enabled", true);
@@ -72,14 +108,6 @@ public class Config
             .comment("Permission level required to use /god. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.god.permission_level", 2, 0, 4);
 
-    public static final ForgeConfigSpec.BooleanValue COMMAND_TRASH_ENABLED = BUILDER
-            .comment("Enables or disables the /trash command")
-            .define("commands.trash.enabled", true);
-
-    public static final ForgeConfigSpec.IntValue COMMAND_TRASH_PERMISSION_LEVEL = BUILDER
-            .comment("Permission level required to use /trash. 0 = any player, 1-4 = operator level")
-            .defineInRange("commands.trash.permission_level", 0, 0, 4);
-
     public static final ForgeConfigSpec.BooleanValue COMMAND_FREEZE_ENABLED = BUILDER
             .comment("Enables or disables the /freeze command")
             .define("commands.freeze.enabled", true);
@@ -95,26 +123,6 @@ public class Config
     public static final ForgeConfigSpec.IntValue COMMAND_MUTE_PERMISSION_LEVEL = BUILDER
             .comment("Permission level required to use /mute. 0 = any player, 1-4 = operator level")
             .defineInRange("commands.mute.permission_level", 2, 0, 4);
-
-    public static final ForgeConfigSpec.BooleanValue COMMAND_IGNORE_ENABLED = BUILDER
-            .comment("Enables or disables the /ignore command")
-            .define("commands.ignore.enabled", true);
-
-    public static final ForgeConfigSpec.BooleanValue COMMAND_AFK_ENABLED = BUILDER
-            .comment("Enables or disables the /afk command")
-            .define("commands.afk.enabled", true);
-
-    public static final ForgeConfigSpec.IntValue COMMAND_AFK_PERMISSION_LEVEL = BUILDER
-            .comment("Permission level required to use /afk. 0 = any player, 1-4 = operator level")
-            .defineInRange("commands.afk.permission_level", 0, 0, 4);
-
-    public static final ForgeConfigSpec.BooleanValue AUTO_AFK_ENABLED = BUILDER
-            .comment("Enables or disables automatic AFK detection")
-            .define("commands.afk.auto_enabled", true);
-
-    public static final ForgeConfigSpec.IntValue AUTO_AFK_TIME_MINUTES = BUILDER
-            .comment("Minutes without movement or camera rotation before automatically entering AFK mode")
-            .defineInRange("commands.afk.auto_time_minutes", 5, 1, 1440);
 
     public static final ForgeConfigSpec.BooleanValue COMMAND_INVSEE_ENABLED = BUILDER
             .comment("Enables or disables the /invsee command")
