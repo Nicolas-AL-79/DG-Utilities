@@ -4,13 +4,6 @@ DG Utilities is a Minecraft Forge mod that adds useful commands and tools for se
 
 The project is currently under active development, and more features are planned for future versions.
 
-## Supported Version
-
-- **Minecraft:** 1.20.1
-- **Forge:** 47.4.10
-- **Java:** 17
-- **Current mod version:** 0.8.0
-
 ## Features
 
 DG Utilities currently includes:
@@ -24,15 +17,19 @@ DG Utilities currently includes:
 - Automatic and manual AFK systems
 - Player status indicators in the tab list
 - Inventory inspection
+- Ender Chest access and inspection
 - Persistent item restrictions
 - Player-specific item restriction bypasses
 - Dimension access restrictions
 - Player-specific dimension bypasses
 - Item-based dimension access keys
 - Portal activation and portal travel restrictions
+- Manual and automatic dropped-item cleanup
+- Temporary player bans with ban-list management
 - Client-side ignore functionality
 - Configurable command permissions
 - Optional client/server behavior
+- `/dg` fallback aliases for server-side commands
 
 Most server commands can be enabled or disabled individually through the mod configuration file.
 
@@ -41,6 +38,26 @@ Permission levels for administrative commands can also be changed through the co
 ---
 
 ## Commands
+
+### Command Aliases
+
+Server-side DG Utilities commands can be executed either directly or through the `/dg` command namespace.
+
+For example:
+
+```text
+/heal
+/dg heal
+
+/tempban Player 30m
+/dg tempban Player 30m
+```
+
+The `/dg` form is available as a fallback in case a short command name conflicts with a command provided by Minecraft or another mod.
+
+Client-only commands such as `/ignore` and `/unignore` are not registered under `/dg`.
+
+---
 
 ### General Server Commands
 
@@ -81,6 +98,20 @@ Opens a temporary 27-slot inventory that can be used to discard unwanted items.
 Items left inside the trash inventory are discarded when the inventory is closed.
 
 **Default permission level:** `0`
+
+---
+
+#### `/enderchest`
+
+Opens your Ender Chest from anywhere.
+
+```text
+/enderchest
+```
+
+The command can only be executed by a player and provides access to the player's normal Ender Chest inventory without requiring an Ender Chest block.
+
+**Default permission level:** `1`
 
 ---
 
@@ -324,6 +355,59 @@ Permanent punishments are displayed as permanent.
 
 ---
 
+### Temporary Bans
+
+#### `/tempban <player> <duration> [reason]`
+
+Temporarily bans one or more player profiles using Minecraft's standard player ban list.
+
+```text
+/tempban Player 30m
+/tempban Player 2h Griefing
+/tempban Player 7d Repeated rule violations
+/tempban Player 1w
+```
+
+Supported duration units:
+
+- `s` - seconds
+- `m` - minutes
+- `h` - hours
+- `d` - days
+- `w` - weeks
+
+If the player is currently online, they are disconnected immediately.
+
+The ban uses an expiration timestamp, so it continues to expire while the player is offline or the server is stopped.
+
+---
+
+#### `/tempban list`
+
+Displays the players currently stored in Minecraft's player ban list, including their expiration date and reason.
+
+```text
+/tempban list
+```
+
+Because DG Utilities uses Minecraft's standard ban list, permanent bans created outside `/tempban` may also appear here.
+
+---
+
+#### `/tempban pardon <player>`
+
+Removes a player from Minecraft's player ban list.
+
+```text
+/tempban pardon Player
+```
+
+This also makes ban-list management available in singleplayer worlds, where Minecraft's vanilla `/ban`, `/pardon`, and `/banlist` commands are normally unavailable.
+
+**Default permission level:** `3`
+
+---
+
 ### Inventory Inspection
 
 #### `/invsee <player>`
@@ -337,6 +421,51 @@ Opens another player's inventory.
 The target player's inventory can be viewed and modified through a chest-style interface.
 
 **Default permission level:** `2`
+
+---
+
+#### `/endersee <player>`
+
+Opens another online player's Ender Chest.
+
+```text
+/endersee Player
+```
+
+The target player's Ender Chest can be viewed and modified through a chest-style interface.
+
+The target player must be online.
+
+**Default permission level:** `2`
+
+---
+
+## Dropped Item Cleanup
+
+#### `/cleardrops`
+
+Immediately removes all currently loaded dropped item entities from every loaded dimension.
+
+```text
+/cleardrops
+```
+
+The command reports how many dropped item entities were removed.
+
+**Default permission level:** `2`
+
+### Automatic Cleanup
+
+DG Utilities can automatically clear dropped items when the number of loaded item entities reaches a configurable threshold.
+
+By default:
+
+- Automatic cleanup is enabled.
+- Cleanup starts when `2000` dropped item entities are loaded.
+- A `30` second countdown starts before the cleanup.
+- Players receive warning messages before the items are removed.
+
+The automatic cleanup threshold and countdown duration can be changed in the mod configuration.
 
 ---
 
@@ -768,6 +897,7 @@ Default permission levels:
 | `/afk`                              | 0 |
 | `/trash`                            | 0 |
 | `/heal`                             | 1 |
+| `/enderchest`                       | 1 |
 | `/announcement`                     | 2 |
 | `/screenannounce`                   | 2 |
 | `/fly`                              | 2 |
@@ -776,10 +906,15 @@ Default permission levels:
 | `/freeze`                           | 2 |
 | `/mute`                             | 2 |
 | `/invsee`                           | 2 |
+| `/endersee`                         | 2 |
+| `/cleardrops`                       | 2 |
 | Item restriction commands           | 3 |
 | Dimension and portal administration | 3 |
+| `/tempban`                          | 3 |
 
 Automatic AFK behavior can also be enabled or disabled and its inactivity timeout can be configured.
+
+Automatic dropped-item cleanup can be enabled or disabled, and its item threshold and cleanup countdown can also be configured.
 
 Public information commands such as `/dimensionblock list`, `/portalblock list`, `/dimensionkey list`, and `/dimensionkey check <dimension>` do not require administrative permission.
 
@@ -831,54 +966,6 @@ DG Utilities currently includes translations for:
 - English (`en_us`)
 - Portuguese - Brazil (`pt_br`)
 - Spanish (`es_es`)
-
----
-
-## Installation
-
-### Client
-
-1. Install Minecraft Forge for Minecraft 1.20.1.
-2. Download the DG Utilities `.jar`.
-3. Place the `.jar` inside the Minecraft `mods` folder.
-4. Start Minecraft using the Forge profile.
-
-### Dedicated Server
-
-1. Install Forge 47.4.10 for Minecraft 1.20.1.
-2. Place the DG Utilities `.jar` inside the server's `mods` folder.
-3. Start the server.
-4. Configure command permissions and enabled features as needed.
-
----
-
-## Building from Source
-
-Requirements:
-
-- Java 17
-- Git
-- Minecraft Forge development environment
-
-Clone the repository and run:
-
-### Windows
-
-```text
-gradlew.bat build
-```
-
-### Linux / macOS
-
-```text
-./gradlew build
-```
-
-The generated `.jar` will be available in:
-
-```text
-build/libs/
-```
 
 ---
 
