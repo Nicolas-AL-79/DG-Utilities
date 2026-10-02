@@ -1,8 +1,12 @@
 package com.dgutilities.common.event;
 
 import com.dgutilities.admin.manager.*;
-import com.dgutilities.server.manager.AFKManager;
+import com.dgutilities.player.manager.AFKManager;
 import com.dgutilities.common.util.ModMessages;
+import com.dgutilities.player.manager.GodManager;
+import com.dgutilities.server.manager.ClearDropsManager;
+import com.dgutilities.server.manager.DimensionAccessManager;
+import com.dgutilities.server.manager.ForbiddenItemsManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;

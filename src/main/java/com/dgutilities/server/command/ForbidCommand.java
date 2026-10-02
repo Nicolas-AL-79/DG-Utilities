@@ -1,7 +1,7 @@
-package com.dgutilities.admin.command;
+package com.dgutilities.server.command;
 
 import com.dgutilities.Config;
-import com.dgutilities.admin.manager.ForbiddenItemsManager;
+import com.dgutilities.server.manager.ForbiddenItemsManager;
 import com.dgutilities.common.util.ModMessages;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandBuildContext;

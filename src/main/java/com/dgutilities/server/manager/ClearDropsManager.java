@@ -1,4 +1,4 @@
-package com.dgutilities.admin.manager;
+package com.dgutilities.server.manager;
 
 import com.dgutilities.Config;
 import com.dgutilities.common.util.ModMessages;

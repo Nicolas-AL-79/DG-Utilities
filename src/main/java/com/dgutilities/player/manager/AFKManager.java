@@ -1,4 +1,4 @@
-package com.dgutilities.server.manager;
+package com.dgutilities.player.manager;
 
 import com.dgutilities.common.util.MobTargetUtils;
 import com.dgutilities.common.util.ModMessages;

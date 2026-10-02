@@ -1,4 +1,4 @@
-package com.dgutilities.admin.manager;
+package com.dgutilities.player.manager;
 
 import com.dgutilities.common.util.ModMessages;
 import net.minecraft.nbt.CompoundTag;

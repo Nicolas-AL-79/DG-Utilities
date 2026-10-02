@@ -1,7 +1,7 @@
-package com.dgutilities.server.command;
+package com.dgutilities.player.command;
 
 import com.dgutilities.Config;
-import com.dgutilities.server.manager.AFKManager;
+import com.dgutilities.player.manager.AFKManager;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;

@@ -1,4 +1,4 @@
-package com.dgutilities.admin.manager;
+package com.dgutilities.server.manager;
 
 import com.dgutilities.DGUtilities;
 import com.google.gson.Gson;

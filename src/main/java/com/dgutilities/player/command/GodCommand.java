@@ -1,7 +1,7 @@
-package com.dgutilities.admin.command;
+package com.dgutilities.player.command;
 
 import com.dgutilities.Config;
-import com.dgutilities.admin.manager.GodManager;
+import com.dgutilities.player.manager.GodManager;
 import com.dgutilities.common.util.ModMessages;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;

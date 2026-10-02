@@ -1,4 +1,4 @@
-package com.dgutilities.server.command;
+package com.dgutilities.player.command;
 
 import com.dgutilities.Config;
 import com.dgutilities.common.util.ModMessages;
