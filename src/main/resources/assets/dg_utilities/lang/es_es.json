@@ -147,5 +147,14 @@
   "command.dg_utilities.cleardrops.empty": "§eNo se encontraron entidades de objetos en el suelo.",
   "command.dg_utilities.cleardrops.auto_start": "§eSe detectaron §c%s§e entidades de objetos en el suelo. La limpieza se realizará en §c%s§e segundos.",
   "command.dg_utilities.cleardrops.auto_warning": "§eLos objetos en el suelo se eliminarán en §c%s§e segundos.",
-  "command.dg_utilities.cleardrops.auto_success": "§aLa limpieza automática eliminó §e%s§a entidades de objetos en el suelo."
+  "command.dg_utilities.cleardrops.auto_success": "§aLa limpieza automática eliminó §e%s§a entidades de objetos en el suelo.",
+
+  "command.dg_utilities.tempban.invalid_duration": "§cDuración inválida. Usa formatos como §e30m§c, §e2h§c, §e7d§c o §e1w§c.",
+  "command.dg_utilities.tempban.success": "§e%s §aha sido baneado temporalmente por §e%s§a. Motivo: §f%s",
+  "command.dg_utilities.tempban.disconnect": "§cHas sido baneado temporalmente.\n§7Motivo: §f%s\n§7Expira: §f%s",
+  "command.dg_utilities.tempban.pardon.success": "§a%s ya no está baneado.",
+  "command.dg_utilities.tempban.pardon.not_banned": "§c%s no está baneado.",
+  "command.dg_utilities.tempban.list.empty": "§eNo hay jugadores baneados.",
+  "command.dg_utilities.tempban.list.header": "§eJugadores baneados: §f%s",
+  "command.dg_utilities.tempban.list.entry": "§7- §f%s §7| Expira: §f%s §7| Motivo: §f%s"
 }

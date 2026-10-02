@@ -180,6 +180,11 @@ public class DGUtilities
         if (Config.COMMAND_CLEARDROPS_ENABLED.get()) {
             ClearDropsCommand.register(dispatcher);
         }
+
+        // Tempban
+        if (Config.COMMAND_TEMPBAN_ENABLED.get()) {
+            TempBanCommand.register(dispatcher);
+        }
     }
 
     private static void registerCommandAliases(CommandDispatcher<CommandSourceStack> serverDispatcher, CommandDispatcher<CommandSourceStack> dgDispatcher) {

@@ -147,5 +147,14 @@
   "command.dg_utilities.cleardrops.empty": "§eNenhuma entidade de item dropado foi encontrada.",
   "command.dg_utilities.cleardrops.auto_start": "§eForam detectadas §c%s§e entidades de itens dropados. A limpeza ocorrerá em §c%s§e segundos.",
   "command.dg_utilities.cleardrops.auto_warning": "§eOs itens dropados serão removidos em §c%s§e segundos.",
-  "command.dg_utilities.cleardrops.auto_success": "§aA limpeza automática removeu §e%s§a entidades de itens dropados."
+  "command.dg_utilities.cleardrops.auto_success": "§aA limpeza automática removeu §e%s§a entidades de itens dropados.",
+
+  "command.dg_utilities.tempban.invalid_duration": "§cDuração inválida. Use formatos como §e30m§c, §e2h§c, §e7d§c ou §e1w§c.",
+  "command.dg_utilities.tempban.success": "§e%s §afoi banido temporariamente por §e%s§a. Motivo: §f%s",
+  "command.dg_utilities.tempban.disconnect": "§cVocê foi banido temporariamente.\n§7Motivo: §f%s\n§7Expira em: §f%s",
+  "command.dg_utilities.tempban.pardon.success": "§a%s não está mais banido.",
+  "command.dg_utilities.tempban.pardon.not_banned": "§c%s não está banido.",
+  "command.dg_utilities.tempban.list.empty": "§eNão há jogadores banidos.",
+  "command.dg_utilities.tempban.list.header": "§eJogadores banidos: §f%s",
+  "command.dg_utilities.tempban.list.entry": "§7- §f%s §7| Expira: §f%s §7| Motivo: §f%s"
 }
